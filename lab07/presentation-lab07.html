@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Чжао Синья (zhaoxinya)">
+  <meta name="dcterms.date" content="2026-10-07">
+  <title>Анализ файловой системы Linux</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/theme/default.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Анализ файловой системы Linux</h1>
+  <p class="subtitle">Команды для работы с файлами и каталогами.
+Лабораторная работа № 7</p>
+  <p class="author">Чжао Синья (zhaoxinya)</p>
+  <p class="date">2026-10-07</p>
+</section>
+
+<section id="анализ-файловой-системы-linux" class="slide level1">
+<h1>Анализ файловой системы Linux</h1>
+<h2 id="команды-для-работы-с-файлами-и-каталогами">Команды для работы с
+файлами и каталогами</h2>
+<p><strong>Лабораторная работа № 7</strong></p>
+<p><strong>Студент:</strong> Чжао Синья<br />
+<strong>Учётная запись:</strong> zhaoxinya<br />
+<strong>Имя хоста:</strong> zhaoxinya<br />
+<strong>Номер студенческого билета:</strong> 113225832<br />
+<strong>Дисциплина:</strong> Архитектура компьютеров и операционные
+системы</p>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>Цель работы</h1>
+<p>Ознакомление с файловой системой Linux, её структурой, именами и
+содержанием каталогов.</p>
+<p>Приобретение практических навыков:</p>
+<ul>
+<li>по применению команд для работы с файлами и каталогами</li>
+<li>по управлению процессами (и работами)</li>
+<li>по проверке использования диска</li>
+<li>по обслуживанию файловой системы</li>
+</ul>
+</section>
+<section id="задание-работы" class="slide level1">
+<h1>Задание работы</h1>
+<ol type="1">
+<li>Ознакомиться с основными командами для работы с файлами и
+каталогами</li>
+<li>Освоить команды копирования (<code>cp</code>), перемещения и
+переименования (<code>mv</code>)</li>
+<li>Изучить права доступа и команды изменения прав
+(<code>chmod</code>)</li>
+<li>Проанализировать файловую систему (<code>mount</code>,
+<code>/etc/fstab</code>, <code>df</code>, <code>du</code>,
+<code>fsck</code>)</li>
+<li>Выполнить задания по работе с файлами и каталогами</li>
+<li>Изучить основные опции команд <code>mount</code>, <code>fsck</code>,
+<code>mkfs</code>, <code>kill</code></li>
+</ol>
+</section>
+<section id="команды-для-просмотра-файлов" class="slide level1">
+<h1>Команды для просмотра файлов</h1>
+<h3 id="создание-пустого-файла">Создание пустого файла</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> имя_файла</span></code></pre></div>
+<h3 id="просмотр-небольших-файлов">Просмотр небольших файлов</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> имя_файла</span></code></pre></div>
+<h3 id="постраничный-просмотр">Постраничный просмотр</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> имя_файла</span></code></pre></div>
+<p>Клавиши: <code>Space</code> — вперёд, <code>Enter</code> — на строку,
+<code>b</code> — назад, <code>h</code> — справка, <code>q</code> —
+выход.</p>
+<h3 id="первыепоследние-строки">Первые/последние строки</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="pp">[-</span><span class="ss">n</span><span class="pp">]</span> имя_файла</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="pp">[-</span><span class="ss">n</span><span class="pp">]</span> имя_файла</span></code></pre></div>
+</section>
+<section id="команда-cp" class="slide level1">
+<h1>Команда cp</h1>
+<p>Копирование файлов и каталогов:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="pp">[-</span><span class="ss">опции</span><span class="pp">]</span> исходный_файл целевой_файл</span></code></pre></div>
+<p>Опции:</p>
+<ul>
+<li><code>-i</code> — запрос подтверждения при перезаписи</li>
+<li><code>-r</code> — рекурсивное копирование каталогов</li>
+</ul>
+</section>
+<section id="команда-mv" class="slide level1">
+<h1>Команда mv</h1>
+<p>Перемещение и переименование:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">[-</span><span class="ss">опции</span><span class="pp">]</span> старый_файл новый_файл</span></code></pre></div>
+<p>Опция:</p>
+<ul>
+<li><code>-i</code> — запрос подтверждения перезаписи</li>
+</ul>
+</section>
+<section id="права-доступа" class="slide level1">
+<h1>Права доступа</h1>
+<p>Каждый файл или каталог имеет права доступа:</p>
+<ul>
+<li>тип файла: <code>-</code> — файл, <code>d</code> — каталог</li>
+<li>права владельца: <code>r</code>, <code>w</code>, <code>x</code>,
+<code>-</code></li>
+<li>права группы: то же</li>
+<li>права остальных: то же</li>
+</ul>
+<h3 id="примеры">Примеры</h3>
+<pre><code>-rw-r--r--    файл: владелец rw, группа r, остальные r
+-rwx------    файл: владелец rwx, остальные без прав
+drwxr-xr-x    каталог: владелец rwx, группа и остальные rx</code></pre>
+</section>
+<section id="команда-chmod" class="slide level1">
+<h1>Команда chmod</h1>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> режим имя_файла</span></code></pre></div>
+<h3 id="символьная-запись">Символьная запись</h3>
+<ul>
+<li><code>u</code> (user) — владелец</li>
+<li><code>g</code> (group) — группа</li>
+<li><code>o</code> (others) — остальные</li>
+<li><code>+</code> добавить, <code>-</code> убрать, <code>=</code>
+установить</li>
+<li><code>r</code>, <code>w</code>, <code>x</code> — чтение, запись,
+выполнение</li>
+</ul>
+<h3 id="числовая-запись-восьмеричная">Числовая запись
+(восьмеричная)</h3>
+<table>
+<thead>
+<tr>
+<th>Двоичная</th>
+<th>Восьмеричная</th>
+<th>Символьная</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>111</td>
+<td>7</td>
+<td>rwx</td>
+</tr>
+<tr>
+<td>110</td>
+<td>6</td>
+<td>rw-</td>
+</tr>
+<tr>
+<td>101</td>
+<td>5</td>
+<td>r-x</td>
+</tr>
+<tr>
+<td>100</td>
+<td>4</td>
+<td>r–</td>
+</tr>
+<tr>
+<td>011</td>
+<td>3</td>
+<td>-wx</td>
+</tr>
+<tr>
+<td>010</td>
+<td>2</td>
+<td>-w-</td>
+</tr>
+<tr>
+<td>001</td>
+<td>1</td>
+<td>–x</td>
+</tr>
+<tr>
+<td>000</td>
+<td>0</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="файловые-системы-linux" class="slide level1">
+<h1>Файловые системы Linux</h1>
+<p>Основные файловые системы:</p>
+<ul>
+<li><code>ext2fs</code>, <code>ext3fs</code>, <code>ext4</code></li>
+<li><code>ReiserFS</code>, <code>xfs</code></li>
+<li><code>fat</code>, <code>ntfs</code></li>
+</ul>
+<h3 id="команды-анализа">Команды анализа</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span>                  <span class="co"># смонтированные ФС</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/fstab         <span class="co"># таблица монтирования</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span> <span class="at">-h</span>                  <span class="co"># использование диска</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~               <span class="co"># объём каталога</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">fsck</span> имя_устройства    <span class="co"># проверка ФС</span></span></code></pre></div>
+</section>
+<section id="соглашения-об-именовании" class="slide level1">
+<h1>Соглашения об именовании</h1>
+<ul>
+<li>Пользователь ВМ: <code>zhaoxinya</code></li>
+<li>Имя хоста: <code>zhaoxinya</code></li>
+<li>Имя виртуальной машины: <code>ZhaoXinya2</code></li>
+</ul>
+<p>Проверка:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">whoami</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hostname</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span></span></code></pre></div>
+<p>Результат:</p>
+<pre><code>zhaoxinya
+zhaoxinya
+uid=1000(zhaoxinya) ...</code></pre>
+</section>
+<section id="подготовка-файлов" class="slide level1">
+<h1>1. Подготовка файлов</h1>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> abc1</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;content of abc1&quot;</span> <span class="op">&gt;</span> abc1</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> abc1</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>-rw-r--r--. 1 zhaoxinya zhaoxinya 16 Oct  7 17:42 abc1</code></pre>
+</section>
+<section id="команда-cp-1" class="slide level1">
+<h1>2. Команда cp</h1>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> abc1 april</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> abc1 may</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> april may</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> monthly</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> april may monthly</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> monthly</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> monthly/may monthly/june</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> monthly</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> monthly.00</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> monthly monthly.00</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> monthly.00</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> monthly.00 /tmp</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /tmp <span class="kw">|</span> <span class="fu">grep</span> monthly</span></code></pre></div>
+<p>Результат:</p>
+<ul>
+<li><code>april</code>, <code>may</code> созданы</li>
+<li><code>monthly</code> содержит <code>april june may</code></li>
+<li><code>monthly.00</code> содержит <code>monthly</code></li>
+<li><code>/tmp/monthly.00</code> создан</li>
+</ul>
+</section>
+<section id="команда-mv-1" class="slide level1">
+<h1>3. Команда mv</h1>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> april july</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> july monthly.00</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> monthly.00 monthly.01</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> reports</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> monthly.01 reports</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> reports/monthly.01 reports/monthly</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> reports</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>monthly</code></pre>
+</section>
+<section id="права-доступа-chmod" class="slide level1">
+<h1>4. Права доступа (chmod)</h1>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> may</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x may</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> may          <span class="co"># -rwxr--r--</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u-x may</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> may          <span class="co"># -rw-r--r--</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> monthly_perm</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> g-r,o-r monthly_perm</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ld</span> monthly_perm    <span class="co"># drwx------</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> g+w abc1</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> abc1             <span class="co"># -rw-rw-r--</span></span></code></pre></div>
+</section>
+<section id="анализ-файловой-системы" class="slide level1">
+<h1>5. Анализ файловой системы</h1>
+<h3 id="смонтированные-фс">Смонтированные ФС</h3>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-20</span></span></code></pre></div>
+<p>Ключевые строки:</p>
+<pre><code>/dev/sda3 on / type btrfs (rw,relatime,...,subvol=/root)
+/dev/sda2 on /boot type ext4
+tmpfs on /tmp type tmpfs</code></pre>
+<h3 id="etcfstab">/etc/fstab</h3>
+<pre><code>UUID=... /      btrfs  subvol=root,compress=zstd:1  0 0
+UUID=... /boot  ext4   defaults                      1 2
+UUID=... /home  btrfs  subvol=home,compress=zstd:1  0 0</code></pre>
+</section>
+<section id="использование-диска" class="slide level1">
+<h1>Использование диска</h1>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span> <span class="at">-h</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>/dev/sda3   79G  4.4G  74G   6% /
+/dev/sda2  974M  326M 581M  36% /boot
+/dev/sda3   79G  4.4G  74G   6% /home
+
+523M  /home/zhaoxinya</code></pre>
+</section>
+<section id="задания-работа-с-файлами" class="slide level1">
+<h1>6. Задания: работа с файлами</h1>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(a) копирование /etc/hosts в equipment</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /etc/hosts ~/equipment</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(b) создание ski.plases</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/ski.plases</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(c) перемещение equipment</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ~/equipment ~/ski.plases/</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(d) переименование в equiplist</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ~/ski.plases/equipment ~/ski.plases/equiplist</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(e) копирование abc1 в equiplist2</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ~/abc1 ~/ski.plases/equiplist2</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(f) создание каталога equipment</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/ski.plases/equipment</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(g) перемещение обоих файлов</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ~/ski.plases/equiplist ~/ski.plases/equiplist2 ~/ski.plases/equipment/</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3(h) перемещение newdir в plans</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ~/newdir ~/ski.plases/plans</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-R</span> ~/ski.plases/</span></code></pre></div>
+</section>
+<section id="структура-после-задания-3" class="slide level1">
+<h1>Структура после задания 3</h1>
+<pre><code>/home/zhaoxinya/ski.plases/:
+equipment  plans
+
+/home/zhaoxinya/ski.plases/equipment:
+equiplist  equiplist2
+
+/home/zhaoxinya/ski.plases/plans:</code></pre>
+</section>
+<section id="права-доступа-задание-4" class="slide level1">
+<h1>7. Права доступа (задание 4)</h1>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/ski.plases</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> australia play</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> my_os feathers</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 744 australia    <span class="co"># drwxr--r--</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 711 play         <span class="co"># drwx--x--x</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 544 my_os        <span class="co"># -r-xr--r--</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 664 feathers     <span class="co"># -rw-rw-r--</span></span></code></pre></div>
+<p>Проверка:</p>
+<pre><code>drwxr--r--.  australia
+drwx--x--x.  play
+-r-xr--r--.  my_os
+-rw-rw-r--.  feathers</code></pre>
+</section>
+<section id="задание-5" class="slide level1">
+<h1>8. Задание 5</h1>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/ski.plases</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> feathers file.old</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> file.old play/</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> play fun</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> fun play/games</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-R</span> play/</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>play/:
+file.old  games
+
+play/games:
+file.old</code></pre>
+</section>
+<section id="отмена-и-восстановление-прав" class="slide level1">
+<h1>Отмена и восстановление прав</h1>
+<h3 id="отмена-чтения">Отмена чтения</h3>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u-r feathers</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> feathers     <span class="co"># --w-rw-r--</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> feathers       <span class="co"># Permission denied</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> feathers feathers.copy   <span class="co"># Permission denied</span></span></code></pre></div>
+<h3 id="восстановление">Восстановление</h3>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+r feathers</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> feathers     <span class="co"># -rw-rw-r--</span></span></code></pre></div>
+<h3 id="отмена-выполнения-каталога">Отмена выполнения каталога</h3>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u-x play</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ld</span> play        <span class="co"># drw---x--x</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> play            <span class="co"># Permission denied</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x ~/ski.plases/play</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-ld</span> ~/ski.plases/play   <span class="co"># drwx--x--x</span></span></code></pre></div>
+</section>
+<section id="основные-опции-команд-задание-6" class="slide level1">
+<h1>9. Основные опции команд (задание 6)</h1>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 30%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Команда</th>
+<th>Назначение</th>
+<th>Основные опции</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mount</code></td>
+<td>Монтирование ФС</td>
+<td><code>-t</code> — тип, <code>-o</code> — опции, <code>-a</code> —
+все</td>
+</tr>
+<tr>
+<td><code>fsck</code></td>
+<td>Проверка/восстановление ФС</td>
+<td><code>-y</code> — все «да», <code>-f</code> — принудительно,
+<code>-A</code> — все</td>
+</tr>
+<tr>
+<td><code>mkfs</code></td>
+<td>Создание ФС</td>
+<td><code>-t</code> — тип, <code>-L</code> — метка</td>
+</tr>
+<tr>
+<td><code>kill</code></td>
+<td>Отправка сигнала процессу</td>
+<td><code>-9</code> — SIGKILL, <code>-15</code> — SIGTERM</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="выводы" class="slide level1">
+<h1>Выводы</h1>
+<p>В ходе лабораторной работы были изучены:</p>
+<ul>
+<li>файловая система Linux (<code>btrfs</code> для <code>/</code> и
+<code>/home</code>, <code>ext4</code> для <code>/boot</code>)</li>
+<li>основные команды работы с файлами и каталогами: <code>touch</code>,
+<code>cat</code>, <code>less</code>, <code>head</code>,
+<code>tail</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>,
+<code>mkdir</code>, <code>rmdir</code></li>
+<li>команды изменения прав доступа <code>chmod</code> (символьная и
+числовая запись)</li>
+<li>команды анализа файловой системы: <code>mount</code>,
+<code>/etc/fstab</code>, <code>df</code>, <code>du</code>,
+<code>fsck</code></li>
+<li>влияние прав доступа на выполнение операций (<code>cat</code>,
+<code>cp</code>, <code>cd</code>)</li>
+<li>основные опции команд <code>mount</code>, <code>fsck</code>,
+<code>mkfs</code>, <code>kill</code></li>
+</ul>
+<p>Практически подтверждено влияние прав доступа на возможность чтения
+файлов, копирования и входа в каталог.</p>
+</section>
+<section id="ответы-на-контрольные-вопросы-12" class="slide level1">
+<h1>Ответы на контрольные вопросы (1/2)</h1>
+<p><strong>1. Что такое файловая система?</strong></p>
+<p>Часть ОС, обеспечивающая организацию, хранение и доступ к файлам.
+Примеры: <code>ext4</code>, <code>btrfs</code>, <code>xfs</code>,
+<code>ntfs</code>, <code>fat</code>.</p>
+<p><strong>2. Команды для просмотра файлов:</strong></p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> file</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> file</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> file</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> file</span></code></pre></div>
+<p><strong>3. Как создать каталог:</strong></p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> dir</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> dir1/dir2/dir3</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-m</span> 755 dir</span></code></pre></div>
+<p><strong>4. Как скопировать файл или каталог:</strong></p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> file1 file2</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> dir1 dir2</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-i</span> file1 file2</span></code></pre></div>
+</section>
+<section id="ответы-на-контрольные-вопросы-22" class="slide level1">
+<h1>Ответы на контрольные вопросы (2/2)</h1>
+<p><strong>5. Перемещение/переименование:</strong></p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> old new</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> file dir/</span></code></pre></div>
+<p><strong>6. Удаление:</strong></p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> file</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> dir</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rmdir</span> dir</span></code></pre></div>
+<p><strong>7. Изменение прав:</strong></p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 755 file</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x file</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> g-r file</span></code></pre></div>
+<p><strong>8. Права доступа</strong> — определяют действия владельца,
+группы и остальных. Числовая запись: <code>r=4</code>, <code>w=2</code>,
+<code>x=1</code>.</p>
+<p><strong>9. Просмотр смонтированных ФС:</strong></p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /proc/mounts</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span> <span class="at">-h</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/fstab</span></code></pre></div>
+<p><strong>10. Объём каталога:</strong></p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-a</span> ~</span></code></pre></div>
+</section>
+<section id="спасибо-за-внимание" class="slide level1">
+<h1>Спасибо за внимание!</h1>
+<p><strong>Репозиторий курса:</strong><br />
+https://github.com/Muzxnya/study_202602-202606_os-intro</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^5/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^5/plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^5/plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^5/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

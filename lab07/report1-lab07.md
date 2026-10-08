@@ -134,15 +134,15 @@ chmod режим имя_файла
 Числовая запись (восьмеричная):
 
 | Двоичная | Восьмеричная | Символьная |
-|----------|--------------|------------|
-| 111 | 7 | rwx |
-| 110 | 6 | rw- |
-| 101 | 5 | r-x |
-| 100 | 4 | r-- |
-| 011 | 3 | -wx |
-| 010 | 2 | -w- |
-| 001 | 1 | --x |
-| 000 | 0 | --- |
+| -------- | ------------ | ---------- |
+| 111      | 7            | rwx        |
+| 110      | 6            | rw-        |
+| 101      | 5            | r-x        |
+| 100      | 4            | r--        |
+| 011      | 3            | -wx        |
+| 010      | 2            | -w-        |
+| 001      | 1            | --x        |
+| 000      | 0            | ---        |
 
 ### Файловые системы
 
@@ -196,6 +196,8 @@ hostname
 id
 ```
 
+![屏幕截图 2026-10-06 234112.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-06%20234112.png)
+
 ---
 
 ## Ход выполнения работы
@@ -208,6 +210,8 @@ touch abc1
 echo "content of abc1" > abc1
 ls -l abc1
 ```
+
+![屏幕截图 2026-10-07 174541.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20174541.png)
 
 Результат:
 
@@ -224,6 +228,8 @@ cp abc1 may
 ls -l april may
 ```
 
+![屏幕截图 2026-10-07 174812.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20174812.png)
+
 Результат:
 
 ```
@@ -237,6 +243,8 @@ cp april may monthly
 ls monthly
 ```
 
+![屏幕截图 2026-10-07 174932.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20174932.png)
+
 Результат:
 
 ```
@@ -247,6 +255,8 @@ april  may
 cp monthly/may monthly/june
 ls monthly
 ```
+
+![屏幕截图 2026-10-07 180429.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20180429.png)
 
 Результат:
 
@@ -260,6 +270,8 @@ cp -r monthly monthly.00
 ls monthly.00
 ```
 
+![屏幕截图 2026-10-07 175705.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20175705.png)
+
 Результат:
 
 ```
@@ -270,6 +282,8 @@ monthly
 cp -r monthly.00 /tmp
 ls /tmp | grep monthly
 ```
+
+![屏幕截图 2026-10-07 180924.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20180924.png)
 
 Результат:
 
@@ -285,6 +299,8 @@ mv april july
 ls -l july
 ```
 
+![屏幕截图 2026-10-07 181155.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20181155.png)
+
 Результат:
 
 ```
@@ -295,6 +311,8 @@ ls -l july
 mv july monthly.00
 ls monthly.00
 ```
+
+![屏幕截图 2026-10-07 181309.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20181309.png)
 
 Результат:
 
@@ -309,6 +327,8 @@ mv monthly.01 reports
 mv reports/monthly.01 reports/monthly
 ls reports
 ```
+
+![屏幕截图 2026-10-07 181644.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20181644.png)
 
 Результат:
 
@@ -327,6 +347,12 @@ chmod u-x may
 ls -l may
 ```
 
+![屏幕截图 2026-10-07 181818.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20181818.png)
+
+![屏幕截图 2026-10-07 181857.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20181857.png)
+
+![屏幕截图 2026-10-07 181924.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20181924.png)
+
 Результат:
 
 ```
@@ -339,6 +365,8 @@ chmod g-r,o-r monthly_perm
 ls -ld monthly_perm
 ```
 
+![屏幕截图 2026-10-07 182130.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182130.png)
+
 Результат:
 
 ```
@@ -349,6 +377,8 @@ drwx------. ... monthly_perm
 chmod g+w abc1
 ls -l abc1
 ```
+
+![屏幕截图 2026-10-07 182209.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182209.png)
 
 Результат:
 
@@ -364,6 +394,12 @@ ls -l abc1
 mount | head -20
 ```
 
+![屏幕截图 2026-10-07 182356.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182356.png)
+
+![屏幕截图 2026-10-07 182409.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182409.png)
+
+![屏幕截图 2026-10-07 182419.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182419.png)
+
 Ключевые строки:
 
 ```
@@ -378,6 +414,10 @@ tmpfs on /tmp type tmpfs ...
 cat /etc/fstab
 ```
 
+![屏幕截图 2026-10-07 182433.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182433.png)
+
+![屏幕截图 2026-10-07 182443.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182443.png)
+
 Ключевые строки:
 
 ```
@@ -391,6 +431,8 @@ UUID=... /home  btrfs  subvol=home,compress=zstd:1  0 0
 ```bash
 df -h
 ```
+
+![屏幕截图 2026-10-07 182505.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182505.png)
 
 Результат:
 
@@ -407,6 +449,8 @@ Filesystem      Size  Used Avail Use% Mounted on
 du -sh ~
 ```
 
+![屏幕截图 2026-10-07 182527.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182527.png)
+
 Результат:
 
 ```
@@ -422,11 +466,15 @@ cp /etc/hosts ~/equipment
 ls -l ~/equipment
 ```
 
+![屏幕截图 2026-10-07 182716.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182716.png)
+
 #### 3(b) Создание каталога ski.plases
 
 ```bash
 mkdir ~/ski.plases
 ```
+
+![屏幕截图 2026-10-07 182819.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182819.png)
 
 #### 3(c) Перемещение файла в ski.plases
 
@@ -434,11 +482,15 @@ mkdir ~/ski.plases
 mv ~/equipment ~/ski.plases/
 ```
 
+![屏幕截图 2026-10-07 182928.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20182928.png)
+
 #### 3(d) Переименование в equiplist
 
 ```bash
 mv ~/ski.plases/equipment ~/ski.plases/equiplist
 ```
+
+![屏幕截图 2026-10-07 183133.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20183133.png)
 
 #### 3(e) Копирование abc1 в equiplist2
 
@@ -446,11 +498,15 @@ mv ~/ski.plases/equipment ~/ski.plases/equiplist
 cp ~/abc1 ~/ski.plases/equiplist2
 ```
 
+![屏幕截图 2026-10-07 183359.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20183359.png)
+
 #### 3(f) Создание каталога equipment
 
 ```bash
 mkdir ~/ski.plases/equipment
 ```
+
+![屏幕截图 2026-10-07 183527.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20183527.png)
 
 #### 3(g) Перемещение файлов в equipment
 
@@ -458,6 +514,8 @@ mkdir ~/ski.plases/equipment
 mv ~/ski.plases/equiplist ~/ski.plases/equiplist2 ~/ski.plases/equipment/
 ls -R ~/ski.plases/
 ```
+
+![屏幕截图 2026-10-07 183819.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20183819.png)
 
 Результат:
 
@@ -478,6 +536,8 @@ mv ~/newdir ~/ski.plases/plans
 ls -R ~/ski.plases/
 ```
 
+![屏幕截图 2026-10-07 183959.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20183959.png)
+
 ### 7. Права доступа (задание 4)
 
 ```bash
@@ -490,6 +550,16 @@ chmod 711 play        # drwx--x--x
 chmod 544 my_os       # -r-xr--r--
 chmod 664 feathers    # -rw-rw-r--
 ```
+
+![屏幕截图 2026-10-07 184225.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20184225.png)
+
+![屏幕截图 2026-10-07 184320.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20184320.png)
+
+![屏幕截图 2026-10-07 184350.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20184350.png)
+
+![屏幕截图 2026-10-07 184452.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20184452.png)
+
+![屏幕截图 2026-10-07 184536.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20184536.png)
 
 Проверка:
 
@@ -511,6 +581,16 @@ mv fun play/games
 ls -R play/
 ```
 
+![屏幕截图 2026-10-07 184920.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20184920.png)
+
+![屏幕截图 2026-10-07 185047.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185047.png)
+
+![屏幕截图 2026-10-07 185236.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185236.png)
+
+![屏幕截图 2026-10-07 185329.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185329.png)
+
+![屏幕截图 2026-10-07 185422.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185422.png)
+
 Результат:
 
 ```
@@ -528,6 +608,8 @@ chmod u-r feathers
 ls -l feathers
 ```
 
+![屏幕截图 2026-10-07 185532.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185532.png)
+
 Результат:
 
 ```
@@ -538,6 +620,8 @@ ls -l feathers
 cat feathers
 ```
 
+![屏幕截图 2026-10-07 185546.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185546.png)
+
 Результат:
 
 ```
@@ -547,6 +631,8 @@ cat: feathers: Permission denied
 ```bash
 cp feathers feathers.copy
 ```
+
+![屏幕截图 2026-10-07 185640.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185640.png)
 
 Результат:
 
@@ -561,6 +647,8 @@ chmod u+r feathers
 ls -l feathers
 ```
 
+![屏幕截图 2026-10-07 185720.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185720.png)
+
 Результат:
 
 ```
@@ -574,6 +662,8 @@ chmod u-x play
 ls -ld play
 ```
 
+![屏幕截图 2026-10-07 185720.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185720.png)
+
 Результат:
 
 ```
@@ -583,6 +673,8 @@ drw---x--x. play
 ```bash
 cd play
 ```
+
+![屏幕截图 2026-10-07 185735.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185735.png)
 
 Результат:
 
@@ -598,6 +690,8 @@ chmod u+x ~/ski.plases/play
 ls -ld ~/ski.plases/play
 ```
 
+![屏幕截图 2026-10-07 185846.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185846.png)
+
 Результат:
 
 ```
@@ -606,12 +700,20 @@ drwx--x--x. /home/zhaoxinya/ski.plases/play
 
 ### 9. Основные опции команд (задание 6)
 
-| Команда | Назначение | Основные опции |
-|---------|-----------|----------------|
-| `mount` | Монтирование файловой системы | `-t` — тип, `-o` — опции, `-a` — все |
-| `fsck` | Проверка и восстановление файловой системы | `-y` — все «да», `-f` — принудительно, `-A` — все |
-| `mkfs` | Создание файловой системы | `-t` — тип, `-L` — метка |
-| `kill` | Отправка сигнала процессу | `-9` — SIGKILL, `-15` — SIGTERM |
+| Команда | Назначение                                 | Основные опции                                    |
+| ------- | ------------------------------------------ | ------------------------------------------------- |
+| `mount` | Монтирование файловой системы              | `-t` — тип, `-o` — опции, `-a` — все              |
+| `fsck`  | Проверка и восстановление файловой системы | `-y` — все «да», `-f` — принудительно, `-A` — все |
+| `mkfs`  | Создание файловой системы                  | `-t` — тип, `-L` — метка                          |
+| `kill`  | Отправка сигнала процессу                  | `-9` — SIGKILL, `-15` — SIGTERM                   |
+
+![屏幕截图 2026-10-07 185935.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185935.png)
+
+![屏幕截图 2026-10-07 185948.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20185948.png)
+
+![屏幕截图 2026-10-07 190001.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20190001.png)
+
+![屏幕截图 2026-10-07 190014.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20190014.png)
 
 ---
 
