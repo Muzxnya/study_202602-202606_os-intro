@@ -123,6 +123,8 @@ hostname
 id
 ```
 
+![屏幕截图 2026-10-06 234112.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-06%20234112.png)
+
 ---
 
 ## Ход выполнения работы
@@ -136,6 +138,10 @@ ls ~ >> file.txt
 head -30 file.txt
 ```
 
+![屏幕截图 2026-10-07 232814.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20232814.png)
+
+![屏幕截图 2026-10-07 232822.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20232822.png)
+
 Файл `file.txt` содержит список файлов из `/etc` и домашнего каталога.
 
 ### 3. Файл conf.txt
@@ -144,6 +150,12 @@ head -30 file.txt
 grep "\.conf" file.txt > conf.txt
 cat conf.txt
 ```
+
+![屏幕截图 2026-10-07 233329.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20233329.png)
+
+![屏幕截图 2026-10-07 233348.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20233348.png)
+
+![屏幕截图 2026-10-07 233355.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20233355.png)
 
 В `conf.txt` записаны файлы с расширением `.conf`.
 
@@ -154,6 +166,8 @@ ls ~ | grep "^c"
 find ~ -maxdepth 1 -name "c*"
 ```
 
+![屏幕截图 2026-10-07 233705.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20233705.png)
+
 Найден `conf.txt`.
 
 ### 5. Файлы /etc, начинающиеся с h
@@ -161,6 +175,8 @@ find ~ -maxdepth 1 -name "c*"
 ```bash
 ls /etc | grep "^h" | less
 ```
+
+![屏幕截图 2026-10-07 233751.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20233751.png)
 
 Выведены `host.conf`, `hostname`, `hosts`, `hp`, `httpd`.
 
@@ -170,6 +186,8 @@ ls /etc | grep "^h" | less
 find / -name "log*" -print > ~/logfile 2>/dev/null &
 ```
 
+![屏幕截图 2026-10-07 234409.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20234409.png)
+
 Через 5 секунд:
 
 ```bash
@@ -177,6 +195,12 @@ jobs
 ls -l ~/logfile
 head -20 ~/logfile
 ```
+
+![屏幕截图 2026-10-07 234707.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20234707.png)
+
+![屏幕截图 2026-10-07 234720.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20234720.png)
+
+![屏幕截图 2026-10-07 234750.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20234750.png)
 
 Результат: `logfile` создан, 57546 байт.
 
@@ -186,6 +210,8 @@ head -20 ~/logfile
 rm ~/logfile
 ls ~/logfile
 ```
+
+![屏幕截图 2026-10-07 234958.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20234958.png)
 
 Результат:
 
@@ -199,7 +225,7 @@ ls: cannot access '/home/zhaoxinya/logfile': No such file or directory
 gnome-text-editor &
 ```
 
-Результат: `[1] 13500`
+![屏幕截图 2026-10-07 235035.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20235035.png)Результат: `[1] 13500`
 
 ### 9. Определение PID
 
@@ -207,6 +233,10 @@ gnome-text-editor &
 ps aux | grep gnome-text-editor | grep -v grep
 pgrep -a -f gnome-text-editor
 ```
+
+![屏幕截图 2026-10-07 235952.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-07%20235952.png)
+
+![屏幕截图 2026-10-08 000411.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20000411.png)
 
 Результат:
 
@@ -221,6 +251,8 @@ zhaoxin+ 13500 ... gnome-text-editor
 kill -9 13500
 ```
 
+![屏幕截图 2026-10-08 000841.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20000841.png)
+
 Результат:
 
 ```
@@ -233,6 +265,8 @@ kill -9 13500
 df -h
 du -sh ~
 ```
+
+![屏幕截图 2026-10-08 001711.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20001711.png)
 
 Результат:
 
@@ -249,6 +283,12 @@ du -sh ~
 ```bash
 find ~ -type d | head -30
 ```
+
+![屏幕截图 2026-10-08 001839.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20001839.png)
+
+![屏幕截图 2026-10-08 001901.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20001901.png)
+
+![屏幕截图 2026-10-08 001910.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20001910.png)
 
 Выведен список каталогов домашнего каталога.
 

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Чжао Синья (zhaoxinya)">
+  <meta name="dcterms.date" content="2026-10-08">
+  <title>Поиск файлов. Перенаправление ввода-вывода. Просмотр запущенных процессов</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/theme/default.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Поиск файлов. Перенаправление ввода-вывода. Просмотр
+запущенных процессов</h1>
+  <p class="subtitle">Лабораторная работа № 8</p>
+  <p class="author">Чжао Синья (zhaoxinya)</p>
+  <p class="date">2026-10-08</p>
+</section>
+
+<section
+id="поиск-файлов.-перенаправление-ввода-вывода.-просмотр-запущенных-процессов"
+class="slide level1">
+<h1>Поиск файлов. Перенаправление ввода-вывода. Просмотр запущенных
+процессов</h1>
+<h2 id="лабораторная-работа-8">Лабораторная работа № 8</h2>
+<p><strong>Студент:</strong> Чжао Синья<br />
+<strong>Учётная запись:</strong> zhaoxinya<br />
+<strong>Имя хоста:</strong> zhaoxinya<br />
+<strong>Номер студенческого билета:</strong> 113225832<br />
+<strong>Дисциплина:</strong> Архитектура компьютеров и операционные
+системы</p>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>Цель работы</h1>
+<p>Ознакомление с инструментами поиска файлов и фильтрации текстовых
+данных.</p>
+<p>Приобретение практических навыков:</p>
+<ul>
+<li>по управлению процессами (и заданиями)</li>
+<li>по проверке использования диска</li>
+<li>по обслуживанию файловых систем</li>
+</ul>
+</section>
+<section id="задание-работы" class="slide level1">
+<h1>Задание работы</h1>
+<ol type="1">
+<li>Ознакомиться с перенаправлением ввода-вывода</li>
+<li>Освоить работу с конвейерами (pipe)</li>
+<li>Освоить команды поиска файлов (<code>find</code>) и фильтрации
+(<code>grep</code>)</li>
+<li>Проверить использование диска (<code>df</code>,
+<code>du</code>)</li>
+<li>Освоить управление задачами и процессами (<code>jobs</code>,
+<code>ps</code>, <code>kill</code>)</li>
+</ol>
+</section>
+<section id="три-стандартных-потока" class="slide level1">
+<h1>Три стандартных потока</h1>
+<table>
+<thead>
+<tr>
+<th>Поток</th>
+<th>Дескриптор</th>
+<th>По умолчанию</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stdin</td>
+<td>0</td>
+<td>клавиатура</td>
+</tr>
+<tr>
+<td>stdout</td>
+<td>1</td>
+<td>терминал</td>
+</tr>
+<tr>
+<td>stderr</td>
+<td>2</td>
+<td>терминал</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="перенаправление-ввода-вывода" class="slide level1">
+<h1>Перенаправление ввода-вывода</h1>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">&gt;</span>filename        <span class="co"># stdout → файл (перезапись)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">&gt;&gt;</span>filename       <span class="co"># stdout → файл (добавление)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">&gt;</span>filename        <span class="co"># stderr → файл</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">&gt;&gt;</span>filename       <span class="co"># stderr → файл (добавление)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;&gt;</span>filename        <span class="co"># stdout и stderr → файл</span></span></code></pre></div>
+<h3 id="пример">Пример</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;hello&quot;</span> <span class="op">&gt;</span> test1.txt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;world&quot;</span> <span class="op">&gt;&gt;</span> test1.txt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /etc/nonexistent <span class="dv">2</span><span class="op">&gt;</span> err.txt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /etc <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-3</span></span></code></pre></div>
+</section>
+<section id="конвейер-pipe" class="slide level1">
+<h1>Конвейер (pipe)</h1>
+<p>Конвейер передаёт вывод одной команды на вход другой:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> sorting_list</span></code></pre></div>
+<p>Разберём:</p>
+<ul>
+<li><code>ls -la</code> — вывод</li>
+<li><code>|</code> — конвейер</li>
+<li><code>sort</code> — сортировка</li>
+<li><code>&gt; sorting_list</code> — запись в файл</li>
+</ul>
+</section>
+<section id="команда-find" class="slide level1">
+<h1>Команда find</h1>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> путь <span class="pp">[-</span><span class="ss">опции</span><span class="pp">]</span></span></code></pre></div>
+<h3 id="примеры">Примеры</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~ <span class="at">-name</span> <span class="st">&quot;f*&quot;</span> <span class="at">-print</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~ <span class="at">-name</span> <span class="st">&quot;*.tmp&quot;</span> <span class="at">-exec</span> rm {} <span class="dt">\;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~ <span class="at">-type</span> d <span class="kw">|</span> <span class="fu">head</span> <span class="at">-30</span></span></code></pre></div>
+<h3 id="основные-опции">Основные опции</h3>
+<ul>
+<li><code>-name шаблон</code> — по имени</li>
+<li><code>-type f</code> — только файлы</li>
+<li><code>-type d</code> — только директории</li>
+<li><code>-exec ... {} \;</code> — выполнить команду</li>
+</ul>
+</section>
+<section id="команда-grep" class="slide level1">
+<h1>Команда grep</h1>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> строка имя_файла</span></code></pre></div>
+<h3 id="примеры-1">Примеры</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> begin f<span class="pp">*</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> <span class="kw">|</span> <span class="fu">grep</span> lab</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;\.conf&quot;</span> file.txt <span class="op">&gt;</span> conf.txt</span></code></pre></div>
+<h3 id="основные-опции-1">Основные опции</h3>
+<ul>
+<li><code>-i</code> — игнорировать регистр</li>
+<li><code>-r</code> — рекурсивно</li>
+<li><code>-v</code> — инвертировать результат</li>
+</ul>
+</section>
+<section id="проверка-использования-диска" class="slide level1">
+<h1>Проверка использования диска</h1>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span> <span class="at">-h</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-a</span> ~</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~</span></code></pre></div>
+<h3 id="результат">Результат</h3>
+<pre><code>Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda3        79G  4.4G   74G   6% /
+/dev/sda2       974M  326M  581M  36% /boot
+/dev/sda3        79G  4.4G   74G   6% /home
+
+527M    /home/zhaoxinya</code></pre>
+</section>
+<section id="управление-задачами" class="slide level1">
+<h1>Управление задачами</h1>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gedit</span> <span class="kw">&amp;</span>                          <span class="co"># запуск в фоне</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">jobs</span>                             <span class="co"># список задач</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">kill</span> %номер_задачи               <span class="co"># завершение задачи</span></span></code></pre></div>
+<h3 id="пример-1">Пример</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gnome-text-editor</span> <span class="kw">&amp;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 13500</span></span></code></pre></div>
+</section>
+<section id="управление-процессами" class="slide level1">
+<h1>Управление процессами</h1>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> aux                           <span class="co"># список процессов</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> gedit              <span class="co"># найти gedit</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-a</span> <span class="at">-f</span> gnome-text-editor    <span class="co"># найти PID</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">kill</span> <span class="at">-9</span> PID                      <span class="co"># завершить по PID</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pkill</span> <span class="at">-f</span> имя                     <span class="co"># завершить по имени</span></span></code></pre></div>
+<h3 id="пример-2">Пример</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> gnome-text-editor <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> grep</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># zhaoxin+  13500  ...  gnome-text-editor</span></span></code></pre></div>
+</section>
+<section id="соглашения-об-именовании" class="slide level1">
+<h1>Соглашения об именовании</h1>
+<ul>
+<li>Пользователь ВМ: <code>zhaoxinya</code></li>
+<li>Имя хоста: <code>zhaoxinya</code></li>
+<li>Имя виртуальной машины: <code>ZhaoXinya2</code></li>
+</ul>
+<p>Проверка:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">whoami</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hostname</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span></span></code></pre></div>
+</section>
+<section id="файл-file.txt" class="slide level1">
+<h1>2. Файл file.txt</h1>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /etc <span class="op">&gt;</span> file.txt</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~ <span class="op">&gt;&gt;</span> file.txt</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-30</span> file.txt</span></code></pre></div>
+<p>Результат: файл <code>file.txt</code> содержит:</p>
+<ul>
+<li>содержимое <code>/etc</code></li>
+<li>содержимое домашнего каталога</li>
+</ul>
+</section>
+<section id="файл-conf.txt" class="slide level1">
+<h1>3. Файл conf.txt</h1>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;\.conf&quot;</span> file.txt <span class="op">&gt;</span> conf.txt</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> conf.txt</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>anthy-unicode.conf
+asound.conf
+brltty.conf
+chrony.conf
+...
+xattr.conf</code></pre>
+</section>
+<section id="файлы-начинающиеся-с-c" class="slide level1">
+<h1>4. Файлы, начинающиеся с c</h1>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~ <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;^c&quot;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~ <span class="at">-maxdepth</span> 1 <span class="at">-name</span> <span class="st">&quot;c*&quot;</span></span></code></pre></div>
+<p>Результат:</p>
+<pre><code>conf.txt
+/home/zhaoxinya/conf.txt</code></pre>
+</section>
+<section id="файлы-etc-начинающиеся-с-h" class="slide level1">
+<h1>5. Файлы /etc, начинающиеся с h</h1>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /etc <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;^h&quot;</span> <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
+<p>Результат:</p>
+<pre><code>host.conf
+hostname
+hosts
+hp
+httpd</code></pre>
+</section>
+<section id="фоновый-поиск-log" class="slide level1">
+<h1>6. Фоновый поиск log</h1>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> / <span class="at">-name</span> <span class="st">&quot;log*&quot;</span> <span class="at">-print</span> <span class="op">&gt;</span> ~/logfile <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">&amp;</span></span></code></pre></div>
+<p>Проверка:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">jobs</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> ~/logfile</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-20</span> ~/logfile</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>-rw-r--r--. 1 zhaoxinya zhaoxinya 57546 ... logfile
+
+/dev/log
+/home/zhaoxinya/.local/share/keyrings/login.keyring
+/home/zhaoxinya/.local/share/pnpm/...</code></pre>
+</section>
+<section id="удаление-logfile" class="slide level1">
+<h1>7. Удаление ~/logfile</h1>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> ~/logfile</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/logfile</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>ls: cannot access &#39;/home/zhaoxinya/logfile&#39;: No such file or directory</code></pre>
+</section>
+<section id="запуск-gnome-text-editor-в-фоне" class="slide level1">
+<h1>8. Запуск gnome-text-editor в фоне</h1>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gnome-text-editor</span> <span class="kw">&amp;</span></span></code></pre></div>
+<p>Результат:</p>
+<pre><code>[1] 13500</code></pre>
+</section>
+<section id="определение-pid" class="slide level1">
+<h1>9. Определение PID</h1>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> gnome-text-editor <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> grep</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-a</span> <span class="at">-f</span> gnome-text-editor</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>zhaoxin+ 13500 ... gnome-text-editor
+13500 gnome-text-editor</code></pre>
+</section>
+<section id="завершение-процесса" class="slide level1">
+<h1>10. Завершение процесса</h1>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">kill</span> <span class="at">-9</span> 13500</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>[2]-  Killed              gnome-text-editor</code></pre>
+<p>Проверка:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-a</span> <span class="at">-f</span> gnome-text-editor</span></code></pre></div>
+<p>Вывод пуст — процесс завершён.</p>
+</section>
+<section id="df-и-du" class="slide level1">
+<h1>11. df и du</h1>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span> <span class="at">-h</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>/dev/sda3   79G  4.4G  74G   6% /
+/dev/sda2  974M  326M 581M  36% /boot
+/dev/sda3   79G  4.4G  74G   6% /home
+
+527M  /home/zhaoxinya</code></pre>
+</section>
+<section id="поиск-директорий" class="slide level1">
+<h1>12. Поиск директорий</h1>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~ <span class="at">-type</span> d <span class="kw">|</span> <span class="fu">head</span> <span class="at">-30</span></span></code></pre></div>
+<p>Результат:</p>
+<pre><code>/home/zhaoxinya
+/home/zhaoxinya/.mozilla
+/home/zhaoxinya/.mozilla/extensions
+/home/zhaoxinya/.mozilla/plugins
+/home/zhaoxinya/.mozilla/firefox
+...</code></pre>
+</section>
+<section id="выводы" class="slide level1">
+<h1>Выводы</h1>
+<ul>
+<li>Изучены перенаправление стандартных потоков и конвейеры</li>
+<li>Освоены команды поиска <code>find</code> и фильтрации
+<code>grep</code></li>
+<li>Освоена проверка использования диска (<code>df</code>,
+<code>du</code>)</li>
+<li>Изучено управление задачами (<code>jobs</code>, <code>&amp;</code>)
+и процессами (<code>ps</code>, <code>kill</code>)</li>
+<li>Практически выполнено удаление процесса по PID и по имени</li>
+</ul>
+</section>
+<section id="ответы-на-контрольные-вопросы-12" class="slide level1">
+<h1>Ответы на контрольные вопросы (1/2)</h1>
+<p><strong>1. Какие потоки ввода-вывода вы знаете?</strong></p>
+<p><code>stdin</code> (0), <code>stdout</code> (1), <code>stderr</code>
+(2)</p>
+<p><strong>2. Разница между &gt; и &gt;&gt;?</strong></p>
+<p><code>&gt;</code> — перезапись; <code>&gt;&gt;</code> —
+добавление.</p>
+<p><strong>3. Что такое конвейер?</strong></p>
+<p>Передаёт вывод одной команды на вход другой:</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="kw">|</span> <span class="fu">sort</span></span></code></pre></div>
+<p><strong>4. Что такое процесс?</strong></p>
+<p>Выполняющийся экземпляр программы.</p>
+<p><strong>5. Что такое PID и GID?</strong></p>
+<ul>
+<li>PID — идентификатор процесса</li>
+<li>GID — идентификатор группы</li>
+</ul>
+</section>
+<section id="ответы-на-контрольные-вопросы-22" class="slide level1">
+<h1>Ответы на контрольные вопросы (2/2)</h1>
+<p><strong>6. Что такое задачи?</strong></p>
+<p>Фоновые процессы текущей оболочки. Управление: <code>jobs</code>,
+<code>kill %N</code>.</p>
+<p><strong>7. top и http</strong></p>
+<ul>
+<li><code>top</code> — интерактивный монитор процессов</li>
+<li><code>httpd</code> — HTTP-сервер</li>
+</ul>
+<p><strong>8. Команды поиска файлов</strong></p>
+<p><code>find</code> (по атрибутам) и <code>grep</code> (по
+содержимому).</p>
+<p><strong>9. Поиск по контексту</strong></p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;текст&quot;</span> файл</span></code></pre></div>
+<p><strong>10. Объём свободной памяти</strong></p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">df</span> <span class="at">-h</span></span></code></pre></div>
+<p><strong>11. Объём домашнего каталога</strong></p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~</span></code></pre></div>
+<p><strong>12. Удаление зависшего процесса</strong></p>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">kill</span> <span class="at">-9</span> PID</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pkill</span> <span class="at">-9</span> имя</span></code></pre></div>
+</section>
+<section id="спасибо-за-внимание" class="slide level1">
+<h1>Спасибо за внимание!</h1>
+<p><strong>Репозиторий курса:</strong><br />
+https://github.com/Muzxnya/study_202602-202606_os-intro</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^5/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^5/plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^5/plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^5/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
