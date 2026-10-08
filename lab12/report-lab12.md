@@ -1,6 +1,6 @@
-Лабораторная работа № 13
+# Лабораторная работа № 12
 
-## Программирование в командном процессоре ОС UNIX. Ветвления и циклы
+## Программирование в командном процессоре ОС UNIX. Командные файлы
 
 **Студент:** Чжао Синья  
 **Учётная запись:** zhaoxinya  
@@ -25,30 +25,101 @@
 
 ## Цель работы
 
-Изучить основы программирования в оболочке ОС UNIX/Linux. Научиться писать более сложные командные файлы с использованием логических управляющих конструкций и циклов.
+Изучить основы программирования в оболочке ОС UNIX/Linux. Научиться писать и отлаживать командные файлы (shell-скрипты) на языке bash.
 
 ---
 
 ## Задание работы
 
-1. Используя команды `getopts` и `grep`, написать командный файл, анализирующий командную строку с ключами `-i` (входной файл), `-o` (выходной файл), `-p` (шаблон), `-C` (различать регистр), `-n` (нумерация строк), и выполняющий поиск строк по шаблону.
-2. Написать на языке C программу, определяющую знак введённого числа, и завершающуюся функцией `exit(n)`. Командный файл должен вызвать программу и по коду возврата (`$?`) выдать сообщение.
-3. Написать командный файл, создающий указанное число пронумерованных файлов `1.tmp, 2.tmp, ... N.tmp`, и умеющий их удалять.
-4. Написать командный файл, упаковывающий в архив все файлы указанной директории (с помощью `tar`). Модифицировать его так, чтобы паковывались только файлы, изменённые менее недели назад (использовать `find`).
+1. Написать командный файл, выполняющий резервное копирование самого себя в каталог `~/backup` с использованием архиватора (`tar`, `zip` или `bzip2`).
+2. Написать командный файл, обрабатывающий произвольное число аргументов командной строки, в том числе превышающее десять.
+3. Написать командный файл — аналог команды `ls` (без использования `ls` и `dir`), выводящий информацию о каталоге и правах доступа к файлам.
+4. Написать командный файл, который принимает в качестве аргументов путь к каталогу и расширение файла, и подсчитывает количество файлов с указанным расширением.
 
 ---
 
 ## Теоретические сведения
 
-### Команда getopts
+### Командные оболочки
 
-`getopts` выполняет синтаксический анализ командной строки, выделяя опции и их аргументы. Синтаксис:
+В UNIX/Linux наиболее распространены:
+
+- `sh` — Bourne shell, базовая оболочка;
+- `csh` — C shell, C-подобный синтаксис, история команд;
+- `ksh` — Korn shell, совместим с sh, расширен csh;
+- `bash` — Bourne Again Shell, стандартная оболочка большинства Linux-систем.
+
+### POSIX
+
+POSIX (Portable Operating System Interface) — набор стандартов IEEE, обеспечивающих совместимость UNIX/Linux-подобных систем и переносимость прикладных программ на уровне исходного кода.
+
+### Переменные в bash
 
 ```bash
-getopts option-string variable [arg ...]
+name=value
+echo $name
 ```
 
-Если после буквы опции стоит двоеточие, значит у этой опции есть аргумент, который помещается в переменную `OPTARG`. Принято использовать `getopts` в цикле `while` с оператором `case`:
+Массивы:
+
+```bash
+arr=(a b c)
+echo ${arr[0]}
+echo ${arr[@]}
+```
+
+### Арифметические операторы
+
+| Оператор       | Описание   |
+| -------------- | ---------- |
+| `+ - * / % **` | арифметика |
+| `<< >>`        | сдвиги     |
+| `& \| ^ ~`     | битовые    |
+| `&& \|\| !`    | логические |
+
+### Арифметическая подстановка
+
+```bash
+i=$((i + 1))
+```
+
+### Стандартные переменные
+
+`HOME`, `PATH`, `PS1`, `PS2`, `IFS`, `TERM`, `LOGNAME`, `MAIL`, `PWD`, `USER`, `SHELL`.
+
+### Метасимволы
+
+- `*` — произвольная строка, в том числе пустая;
+- `?` — один произвольный символ;
+- `[c1-c2]` — диапазон символов;
+- `\` — экранирование;
+- `'...'` — буквальное значение;
+- `"..."` — с подстановкой переменных.
+
+### Командные файлы
+
+Создание и запуск:
+
+```bash
+touch script.sh
+chmod +x script.sh
+./script.sh
+```
+
+### Позиционные параметры
+
+`$0`, `$1`, `$2`, ..., `$#`, `$*`, `$@`, `$?`, `$$`, `$!`.
+
+### Управляющие конструкции
+
+- `if ... then ... elif ... else ... fi`
+- `case ... esac`
+- `for ... do ... done`
+- `while ... do ... done`
+- `until ... do ... done`
+- `break`, `continue`
+
+### Команда getopts
 
 ```bash
 while getopts "i:o:p:Cn" opt; do
@@ -61,56 +132,6 @@ while getopts "i:o:p:Cn" opt; do
   esac
 done
 ```
-
-### Команда grep
-
-```bash
-grep [-опции] шаблон файл
-```
-
-Основные опции:
-
-- `-i` — игнорировать регистр;
-- `-n` — выдавать номера строк;
-- `-C` — выводить контекст;
-- `-v` — инвертировать совпадение.
-
-### Специальные переменные
-
-- `$?` — код завершения последней команды;
-- `$#` — число аргументов;
-- `$1`, `$2`, ... — позиционные параметры.
-
-### Функция exit в C
-
-`exit(n)` — завершение программы с кодом `n`, который становится доступен в shell как `$?`.
-
-### Управляющие конструкции bash
-
-- `if ... then ... elif ... else ... fi`
-- `case ... esac`
-- `for ... do ... done`
-- `while ... do ... done`
-- `until ... do ... done`
-
-### Команды find и tar
-
-```bash
-find DIR -type f -mtime -7 -print0
-```
-
-- `-type f` — только файлы;
-- `-mtime -7` — изменённые менее 7 дней назад;
-- `-print0` — разделять имена нулевым байтом (для `tar --null -T -`).
-
-```bash
-tar -czf archive.tar.gz --null -T -
-```
-
-- `-c` — создать архив;
-- `-z` — сжать gzip;
-- `-f` — имя архива;
-- `--null -T -` — читать список файлов со стандартного ввода, разделённых `\0`.
 
 ---
 
@@ -128,210 +149,280 @@ hostname
 id
 ```
 
+![屏幕截图 2026-10-06 234112.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-06%20234112.png)
+
 ---
 
 ## Ход выполнения работы
 
-### Задание 1. Командный файл с getopts и grep
+### Задание 1. Резервное копирование скрипта
 
-Создан файл `~/mygrep.sh`:
+Создан файл `~/backup-self.sh` с помощью редактора `nano`:
 
 ```bash
-nano ~/mygrep.sh
+nano ~/backup-self.sh
 ```
 
 Исходный код:
 
 ```bash
 #!/bin/bash
-while getopts "i:o:p:Cn" opt; do
-case $opt in
-i) INFILE="$OPTARG";;
-o) OUTFILE="$OPTARG";;
-p) PATTERN="$OPTARG";;
-C) CASE="-C";;
-n) NUMS="-n";;
-esac
-done
-if [ -z "$INFILE" ] || [ -z "$PATTERN" ]; then
-echo "Usage: $0 -i input -p pattern [-o output] [-C] [-n]"
-exit 1
-fi
-if [ -z "$OUTFILE" ]; then
-grep $CASE $NUMS "$PATTERN" "$INFILE"
-else
-grep $CASE $NUMS "$PATTERN" "$INFILE" > "$OUTFILE"
-echo "Result written to $OUTFILE"
-fi
+BACKUP_DIR="$HOME/backup"
+mkdir -p "$BACKUP_DIR"
+SCRIPT_PATH=$(realpath "$0")
+BACKUP_FILE="$BACKUP_DIR/backup-self-$(date +%Y%m%d-%H%M%S).tar.gz"
+tar -czf "$BACKUP_FILE" "$SCRIPT_PATH"
+echo "Backup completed:$BACKUP_FILE"
 ```
 
-Установлены права и выполнен запуск:
+![屏幕截图 2026-10-08 142422.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20142422.png)
+
+Установлены права на выполнение:
 
 ```bash
-chmod +x ~/mygrep.sh
-~/mygrep.sh -i /etc/passwd -p root -n
+chmod +x ~/backup-self.sh
+```
+
+Скрипт выполнен:
+
+```bash
+~/backup-self.sh
+```
+
+Первоначально при запуске возникала ошибка:
+
+```
+tar: Cowardly refusing to create an empty archive
+```
+
+Причина ошибки — в команде `tar` между двумя аргументами `"$BACKUP_FILE"` и `"$SCRIPT_PATH"` отсутствовал пробел, из-за чего они склеивались в одно имя. После добавления пробела и использования `realpath "$0"` для получения абсолютного пути скрипт заработал корректно.
+
+Результат выполнения:
+
+```
+tar: Removing leading `/' from member names
+Backup completed:/home/zhaoxinya/backup/backup-self-20261008-142508.tar.gz
+```
+
+Проверка содержимого каталога резервных копий:
+
+```bash
+ls -l ~/backup/
 ```
 
 Результат:
 
 ```
-1:root:x:0:0:Super User:/root:/bin/bash
-10:operator:x:11:0:operator:/root:/usr/sbin/nologin
+total 4
+-rw-r--r--. 1 zhaoxinya zhaoxinya 302 Oct  8 14:25 backup-self-20261008-142508.tar.gz
 ```
 
-Первоначально возникало предупреждение `line 11: [: missing ']'`, связанное с отсутствием пробела между `]` и `;`. После корректной записи конструкции `[ ... ] || [ ... ]` предупреждение исчезло.
+Сообщение `tar: Removing leading '/' from member names` не является ошибкой — это стандартное поведение `tar`, который удаляет ведущий `/` из путей внутри архива, чтобы распаковка не перезаписывала абсолютные пути.
 
-### Задание 2. Программа на C и анализ кода возврата
+![屏幕截图 2026-10-08 142536.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20142536.png)
 
-Создан файл `~/checknum.c`:
+### Задание 2. Обработка произвольного числа аргументов
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-int main() {
-int n;
-printf("Enter number: ");
-scanf("%d", &n);
-if (n > 0) exit(1);
-else if (n < 0) exit(2);
-else exit(0);
-}
-```
-
-Компиляция:
+Создан файл `~/args.sh`:
 
 ```bash
-gcc ~/checknum.c -o ~/checknum
+nano ~/args.sh
 ```
 
-Создан командный файл `~/checknum.sh`:
+Исходный код:
 
 ```bash
 #!/bin/bash
-~/checknum
-R=$?
-case $R in
-0) echo "Number is zero";;
-1) echo "Number is positive";;
-2) echo "Number is negative";;
-*) echo "Unknown exit code: $R";;
-esac
+echo "Total arguments: $#"
+i=1
+for arg in "$@"; do
+  echo "Argument $i: $arg"
+  i=$((i + 1))
+done
 ```
 
-Установлены права и выполнены три проверки:
+![屏幕截图 2026-10-08 135854.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20135854.png)
+
+Установлены права и выполнен запуск с 12 аргументами:
 
 ```bash
-chmod +x ~/checknum.sh
-~/checknum.sh
+chmod +x ~/args.sh
+~/args.sh a b c d e f g h i j k l
 ```
 
-Результаты:
+Результат:
 
 ```
-Enter number: 5
-Number is positive
-
-Enter number: -3
-Number is negative
-
-Enter number: 0
-Number is zero
+Total arguments: 12
+Argument 1: a
+Argument 2: b
+Argument 3: c
+Argument 4: d
+Argument 5: e
+Argument 6: f
+Argument 7: g
+Argument 8: h
+Argument 9: i
+Argument 10: j
+Argument 11: k
+Argument 12: l
 ```
 
-Программа на C возвращает через `exit(n)` код, который в командном файле анализируется с помощью `$?` и оператора `case`.
+Использование `"$@"` позволяет корректно обрабатывать любое количество аргументов, включая более десяти, и сохранять аргументы с пробелами как единое целое.
 
-### Задание 3. Создание и удаление N файлов
+![屏幕截图 2026-10-08 140316.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20140316.png)
 
-Создан файл `~/mkfiles.sh`:
+### Задание 3. Аналог команды ls
+
+Создан файл `~/myls.sh`:
+
+```bash
+nano ~/myls.sh
+```
+
+Исходный код:
+
+```bash
+#!/bin/bash
+DIR="${1:-.}"
+if [ ! -d "$DIR" ]; then
+  echo "Error: $DIR is not a directory."
+  exit 1
+fi
+echo "Contents of $DIR:"
+for f in "$DIR"/* "$DIR"/.[!.]*; do
+  [ -e "$f" ] || continue
+  if [ -d "$f" ]; then type="d"
+  elif [ -f "$f" ]; then type="-"
+  else type="?"
+  fi
+  perms=$(stat -c %A "$f")
+  echo "$type $perms $(basename "$f")"
+done
+```
+
+![屏幕截图 2026-10-08 144012.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20144012.png)
+
+![屏幕截图 2026-10-08 144021.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20144021.png)
+
+Установлены права и выполнен запуск:
+
+```bash
+chmod +x ~/myls.sh
+~/myls.sh ~
+```
+
+Результат (фрагмент):
+
+```
+Contents of /home/zhaoxinya:
+- -rw-rw-r-- abc1
+- -rwxr-xr-x args.sh
+d drwxr-xr-x backup
+- -rwxr-xr-x backup-self.sh
+d drwxr-xr-x bin
+- -rw-r--r-- conf.txt
+d drwxr-xr-x Desktop
+d drwxr-xr-x Documents
+d drwxr-xr-x Downloads
+- -rw-r--r-- err.txt
+- -rw-r--r-- file.txt
+- -rw-r--r-- lab07.sh
+- -rw-r--r-- lab07.sh~
+- -rw-r--r-- LICENSE
+- -rw-r--r-- may
+d drwxr-xr-x monthly
+d drwx--x--x monthly_perm
+d drwxr-xr-x Music
+- -rwxr-xr-x myls.sh
+d drwxr-xr-x Pictures
+d drwxr-xr-x Public
+d drwxr-xr-x reports
+d drwxr-xr-x ski.plases
+d drwxr-xr-x STUD1
+d drwxr-xr-x Templates
+- -rw-r--r-- test1.txt
+d drwxr-xr-x Videos
+d drwxr-xr-x work
+- -rw------- .bash_history
+- -rw-r--r-- .bash_logout
+- -rw-r--r-- .bash_profile
+- -rw-r--r-- .bashrc
+d drwxr-xr-x .bashrc.d
+d drwx------ .cache
+d drwxr-xr-x .config
+d drwx------ .emacs.d
+- -rw-r--r-- .gitconfig
+d drwx------ .gnupg
+- -rw-r--r-- .gtkrc-2.0
+d drwxr-xr-x .local
+d drwxr-xr-x .mozilla
+d drwx------ .password-store
+d drwx------ .ssh
+- -rw-r--r-- .vimrc
+- -rw-r--r-- .XCompose
+```
+
+Скрипт корректно обрабатывает как обычные, так и скрытые файлы (`.` и `..` исключены шаблоном `.[!.]*`), выводит тип (`d` — каталог, `-` — файл), права доступа и имя файла.
+
+![屏幕截图 2026-10-08 144205.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20144205.png)
+
+![屏幕截图 2026-10-08 144219.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20144219.png)
+
+![屏幕截图 2026-10-08 144230.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20144230.png)
+
+### Задание 4. Подсчёт файлов по расширению
+
+Создан файл `~/count-ext.sh`:
+
+```bash
+nano ~/count-ext.sh
+```
+
+Исходный код:
 
 ```bash
 #!/bin/bash
 if [ $# -ne 2 ]; then
-echo "Usage: $0 <count> <create|delete>"
-exit 1
+  echo "Usage: $0 <directory> <extension>"
+  exit 1
 fi
-N=$1
-ACTION=$2
-if [ "$ACTION" = "create" ]; then
-for i in $(seq 1 $N); do
-touch "$i.tmp"
-done
-echo "Created $N files"
-elif [ "$ACTION" = "delete" ]; then
-for i in $(seq 1 $N); do
-rm -f "$i.tmp"
-done
-echo "Deleted $N files"
-else
-echo "Unknown action: $ACTION"
-exit 1
+DIR="$1"
+EXT="$2"
+if [ ! -d "$DIR" ]; then
+  echo "Error: Not a directory: $DIR"
+  exit 1
 fi
+COUNT=0
+for f in "$DIR"/*."$EXT"; do
+  [ -e "$f" ] || continue
+  COUNT=$((COUNT + 1))
+done
+echo "Files with extension .$EXT in $DIR: $COUNT"
 ```
+
+![屏幕截图 2026-10-08 145355.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20145355.png)
+
+![屏幕截图 2026-10-08 145731.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20145731.png)
 
 Установлены права и выполнены проверки:
 
 ```bash
-chmod +x ~/mkfiles.sh
-~/mkfiles.sh 5 create
-ls *.tmp
-~/mkfiles.sh 5 delete
-ls *.tmp
+chmod +x ~/count-ext.sh
+~/count-ext.sh ~ sh
+~/count-ext.sh ~ txt
 ```
 
 Результат:
 
 ```
-Created 5 files
-1.tmp  2.tmp  3.tmp  4.tmp  5.tmp
-Deleted 5 files
-ls: cannot access '*.tmp': No such file or directory
+Files with extension .sh in /home/zhaoxinya: 5
+Files with extension .txt in /home/zhaoxinya: 4
 ```
 
-Скрипт корректно создаёт и удаляет заданное число файлов с именами `1.tmp ... N.tmp`.
+Первоначально в последней строке была ошибка `echo"Files..."` (без пробела между `echo` и `"`), из-за чего bash пытался выполнить команду с именем `echoFiles...`. После добавления пробела скрипт стал работать корректно.
 
-### Задание 4. Упаковка файлов с tar и find
-
-Создан файл `~/archdir.sh`:
-
-```bash
-#!/bin/bash
-if [ $# -ne 2 ]; then
-echo "Usage: $0 <directory> <archive.tar.gz>"
-exit 1
-fi
-DIR="$1"
-ARCH="$2"
-if [ ! -d "$DIR" ]; then
-echo "Error: $DIR is not a directory"
-exit 1
-fi
-find "$DIR" -type f -mtime -7 -print0 | tar -czf "$ARCH" --null -T -
-echo "Archive created: $ARCH"
-```
-
-Установлены права и выполнен запуск:
-
-```bash
-chmod +x ~/archdir.sh
-~/archdir.sh ~ /tmp/mybackup.tar.gz
-ls -l /tmp/mybackup.tar.gz
-tar -tzf /tmp/mybackup.tar.gz | head
-```
-
-Результат:
-
-```
-tar: Removing leading `/' from member names
-tar: Removing leading `/' from hard link targets
-tar: /home/zhaoxinya/ski.plases/feathers: Cannot open: Permission denied
-tar: Exiting with failure status due to previous errors
-Archive created: /tmp/mybackup.tar.gz
--rw-r--r--. 1 zhaoxinya zhaoxinya 540454939 Oct 8 16:32 /tmp/mybackup.tar.gz
-home/zhaoxinya/.mozilla/firefox/...
-...
-```
-
-Сообщение `Removing leading '/' from member names` — стандартное поведение `tar`. Сообщение `Cannot open: Permission denied` относится к файлу `ski.plases/feathers`, у которого в лабораторной работе № 7 намеренно было снято право чтения, поэтому `tar` не смог его прочитать и пропустил. Архив создан успешно, что подтверждается размером файла (~515 МБ) и успешным выводом оглавления через `tar -tzf`.
+![屏幕截图 2026-10-08 145842.png](C:\Users\dell\Pictures\Screenshots\屏幕截图%202026-10-08%20145842.png)
 
 ---
 
@@ -339,61 +430,110 @@ home/zhaoxinya/.mozilla/firefox/...
 
 В ходе лабораторной работы были изучены:
 
-- команда `getopts` для синтаксического анализа командной строки;
-- взаимодействие командного файла с программой на языке C через код возврата `exit(n)` и переменную `$?`;
-- использование циклов `for`, конструкций `if/elif/else` и `case` в командных файлах;
-- работа с командами `find`, `tar` для архивации файлов по заданному критерию.
+- переменные в bash и оператор `$`;
+- арифметические операции через `$(( ))`;
+- стандартные переменные оболочки;
+- метасимволы и их экранирование;
+- создание и запуск командных файлов;
+- позиционные параметры и команда `getopts`;
+- управляющие конструкции (`if`, `case`, `for`, `while`, `until`).
 
-Написаны и отлажены 4 файла: `mygrep.sh`, `checknum.c` + `checknum.sh`, `mkfiles.sh`, `archdir.sh`. Все скрипты проверены на реальных данных.
+Написаны и отлажены 4 командных файла: `backup-self.sh`, `args.sh`, `myls.sh`, `count-ext.sh`. В процессе работы были выявлены и устранены две типичные ошибки: отсутствие пробела между аргументами `tar` и отсутствие пробела между `echo` и строкой. Обе ошибки связаны с особенностями разбора командной строки bash.
 
 ---
 
 ## Ответы на контрольные вопросы
 
-### 1. Каково предназначение команды getopts?
+### 1. Понятие командной оболочки
 
-`getopts` служит для разбора опций (ключей) командной строки в командных файлах. Она выделяет буквенные опции, а при наличии двоеточия в строке опций — и их аргументы (доступны через `$OPTARG`). Обычно используется в цикле `while` вместе с `case`.
+Командная оболочка (shell) — программа, обеспечивающая взаимодействие пользователя с операционной системой через команды. Примеры: `sh`, `csh`, `ksh`, `bash`.
 
-### 2. Какое отношение метасимволы имеют к генерации имён файлов?
+### 2. Что такое POSIX?
 
-Метасимволы (`*`, `?`, `[ ]`) используются оболочкой для генерации имён файлов по шаблону. Например, `*.c` подставляет все файлы с расширением `.c`, `[a-z]*` — все файлы, начинающиеся со строчной латинской буквы. Перед передачей команде shell сам раскрывает эти шаблоны.
+POSIX — набор стандартов описания интерфейсов взаимодействия ОС и прикладных программ, разработан IEEE для совместимости UNIX/Linux-подобных систем.
 
-### 3. Какие операторы управления действиями вы знаете?
+### 3. Как определяются переменные и массивы в bash?
 
-- `if ... then ... fi`
-- `if ... then ... elif ... else ... fi`
-- `case ... esac`
-- Логические операторы `&&` и `||`
-- Операторы сравнения `-eq, -ne, -lt, -gt, -le, -ge`
+Переменные:
 
-### 4. Какие операторы используются для прерывания цикла?
+```bash
+name=value
+```
 
-- `break` — полностью выходит из цикла;
-- `continue` — прерывает текущую итерацию и переходит к следующей.
+Массивы:
 
-### 5. Для чего нужны команды false и true?
+```bash
+arr=(a b c)
+echo ${arr[0]}
+echo ${arr[@]}
+```
 
-- `true` — всегда возвращает код завершения 0 (успех);
-- `false` — всегда возвращает ненулевой код (неудача).
+### 4. Назначение операторов `let` и `read`
 
-Они используются для организации бесконечных циклов (`while true; do ... done`) и в условиях, где нужен явно заданный код возврата.
+- `let` — выполнение арифметических операций над переменными;
+- `read` — чтение строки со стандартного ввода и присваивание её переменной.
 
-### 6. Что означает строка `if test -f man$s/$i.$s`, встречаемая в командном файле?
+### 5. Арифметические операторы в bash
 
-Проверяется, существует ли обычный файл (`-f`), путь к которому склеен из значений переменных:
+`+ - * / % ** << >> & | ^ ~ && || !`.
 
-- `man$s` — каталог `man` + суффикс `$s`;
-- `$i` — имя файла (переменная);
-- `.$s` — расширение `$s`.
+### 6. Что означает `$(( ))`?
 
-То есть условно: если существует файл `manN/число.N`, то выполнить соответствующую ветку.
+Арифметическая подстановка: содержимое вычисляется как арифметическое выражение, результат подставляется в командную строку.
 
-### 7. Объясните разницу между конструкциями while и until.
+### 7. Стандартные имена переменных
 
-- `while условие; do ... done` — цикл выполняется, пока условие **истинно**;
-- `until условие; do ... done` — цикл выполняется, пока условие **ложно** (эквивалентно `while not условие`).
+`HOME`, `PATH`, `PS1`, `PS2`, `IFS`, `TERM`, `LOGNAME`, `MAIL`, `PWD`, `OLDPWD`, `SHELL`, `USER`.
 
-Обе конструкции проверяют условие перед каждой итерацией, но инвертируют логику проверки.
+### 8. Что такое метасимволы?
+
+Символы, имеющие специальное значение для shell: `* ? [ ] \ ' " ` $ ; & | < > ( ) { }`.
+
+### 9. Как экранировать метасимволы?
+
+- `\` перед символом — экранирует один символ;
+- `'...'` — экранирует всё содержимое;
+- `"..."` — экранирует всё, кроме `$`, `` ` ``, `\`, `!`.
+
+### 10. Как создавать и запускать командные файлы?
+
+```bash
+touch script.sh
+chmod +x script.sh
+./script.sh
+```
+
+### 11. Как определяются функции в bash?
+
+```bash
+function name {
+  commands
+}
+# или
+name() {
+  commands
+}
+```
+
+### 12. Как выяснить, является ли файл каталогом?
+
+```bash
+[ -d "$file" ] && echo "directory"
+```
+
+### 13. Назначение команд `set`, `typeset`, `unset`
+
+- `set` — показать/установить переменные и опции shell;
+- `typeset` — объявить переменную с атрибутами;
+- `unset` — удалить переменную.
+
+### 14. Как передаются параметры в командный файл?
+
+Позиционные параметры: `$1`, `$2`, ..., `$#`, `$*`, `$@`.
+
+### 15. Специальные переменные bash
+
+`$?` — код завершения последней команды, `$$` — PID текущего shell, `$!` — PID последнего фонового процесса, `$#` — число аргументов, `$*`/`$@` — все аргументы, `$-` — флаги shell, `$_` — последний аргумент предыдущей команды.
 
 ---
 
