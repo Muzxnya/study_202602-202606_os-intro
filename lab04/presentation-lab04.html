@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Чжао Синья (zhaoxinya)">
+  <meta name="dcterms.date" content="2026-10-07">
+  <title>Продвинутое использование git</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^5/dist/theme/default.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Продвинутое использование git</h1>
+  <p class="subtitle">Лабораторная работа № 4</p>
+  <p class="author">Чжао Синья (zhaoxinya)</p>
+  <p class="date">2026-10-07</p>
+</section>
+
+<section id="продвинутое-использование-git" class="slide level1">
+<h1>Продвинутое использование git</h1>
+<h2 id="лабораторная-работа-4">Лабораторная работа № 4</h2>
+<p><strong>Студент:</strong> Чжао Синья<br />
+<strong>Учётная запись:</strong> zhaoxinya<br />
+<strong>Номер студенческого билета:</strong> 113225832<br />
+<strong>Дисциплина:</strong> Архитектура компьютеров и операционные
+системы. Операционные системы</p>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>Цель работы</h1>
+<p>Получение навыков правильной работы с репозиториями git.</p>
+<ul>
+<li>Освоение методологии <strong>Gitflow</strong></li>
+<li>Освоение <strong>семантического версионирования</strong></li>
+<li>Освоение <strong>общепринятых коммитов (Conventional
+Commits)</strong></li>
+</ul>
+</section>
+<section id="задание-работы" class="slide level1">
+<h1>Задание работы</h1>
+<ol type="1">
+<li>Установить необходимое ПО (git-flow, Node.js, pnpm, commitizen,
+conventional-changelog)</li>
+<li>Создать репозиторий <code>git-extended</code> на GitHub</li>
+<li>Настроить и применить Conventional Commits</li>
+<li>Освоить рабочий процесс Gitflow</li>
+<li>Применить семантическое версионирование</li>
+<li>Создать релизы 1.0.0 и 1.2.3 с генерацией CHANGELOG</li>
+</ol>
+</section>
+<section id="рабочий-процесс-gitflow" class="slide level1">
+<h1>Рабочий процесс Gitflow</h1>
+<p><strong>Gitflow Workflow</strong> — модель ветвления, предложенная
+Винсентом Дриссеном.</p>
+<h3 id="основные-ветки">Основные ветки</h3>
+<ul>
+<li><code>main</code> — официальная история релизов</li>
+<li><code>develop</code> — интеграция всех новых функций</li>
+</ul>
+<h3 id="вспомогательные-ветки">Вспомогательные ветки</h3>
+<ul>
+<li><code>feature/*</code> — разработка отдельных функций</li>
+<li><code>release/*</code> — подготовка релиза</li>
+<li><code>hotfix/*</code> — срочные исправления</li>
+</ul>
+</section>
+<section id="gitflow-схема-ветвления" class="slide level1">
+<h1>Gitflow: схема ветвления</h1>
+<pre><code>main     ──●────────────●────────────●──
+            \          /            /
+release/*    \    ●───●        ●───●
+              \  /            /
+develop  ──●───●───●───●───●───●───●──
+            \     /     \     /
+feature/*    ●───●       ●───●</code></pre>
+<ul>
+<li>feature → develop</li>
+<li>release → main + develop</li>
+<li>hotfix → main + develop</li>
+</ul>
+</section>
+<section id="семантическое-версионирование" class="slide level1">
+<h1>Семантическое версионирование</h1>
+<p>Формат версии:</p>
+<pre><code>МАЖОРНАЯ.МИНОРНАЯ.ПАТЧ</code></pre>
+<ul>
+<li><strong>МАЖОРНАЯ</strong> — несовместимые изменения API</li>
+<li><strong>МИНОРНАЯ</strong> — новая функциональность без нарушения
+совместимости</li>
+<li><strong>ПАТЧ</strong> — обратно совместимые исправления</li>
+</ul>
+<p>Пример: <code>1.2.3</code></p>
+</section>
+<section id="conventional-commits" class="slide level1">
+<h1>Conventional Commits</h1>
+<h3 id="структура-коммита">Структура коммита</h3>
+<pre><code>&lt;тип&gt;(&lt;область&gt;): &lt;описание изменения&gt;
+
+[необязательное тело]
+
+[необязательный нижний колонтитул]</code></pre>
+<h3 id="основные-типы">Основные типы</h3>
+<ul>
+<li><code>feat</code> — новая функция (MINOR)</li>
+<li><code>fix</code> — исправление ошибки (PATCH)</li>
+<li><code>docs</code> — документация</li>
+<li><code>chore</code> — служебные изменения</li>
+<li><code>refactor</code>, <code>style</code>, <code>test</code>,
+<code>perf</code>, <code>build</code>, <code>ci</code></li>
+</ul>
+</section>
+<section id="связь-conventional-commits-и-semver" class="slide level1">
+<h1>Связь Conventional Commits и SemVer</h1>
+<table>
+<thead>
+<tr>
+<th>Тип коммита</th>
+<th>Версия</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fix</code></td>
+<td>PATCH</td>
+</tr>
+<tr>
+<td><code>feat</code></td>
+<td>MINOR</td>
+</tr>
+<tr>
+<td><code>BREAKING CHANGE</code></td>
+<td>MAJOR</td>
+</tr>
+</tbody>
+</table>
+<p>Позволяет автоматически генерировать:</p>
+<ul>
+<li>номера версий</li>
+<li>CHANGELOG</li>
+</ul>
+</section>
+<section id="соглашения-об-именовании" class="slide level1">
+<h1>Соглашения об именовании</h1>
+<ul>
+<li>Пользователь ВМ: <code>zhaoxinya</code></li>
+<li>Имя хоста: <code>zhaoxinya</code></li>
+<li>Имя виртуальной машины: <code>ZhaoXinya2</code></li>
+<li>Репозиторий эксперимента: <code>git-extended</code></li>
+<li>Основной курсовой репозиторий:
+<code>study_202602-202606_os-intro</code></li>
+</ul>
+<p>Проверка:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">whoami</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hostname</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span></span></code></pre></div>
+</section>
+<section id="установка-программного-обеспечения" class="slide level1">
+<h1>Установка программного обеспечения</h1>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># git-flow через COPR</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf <span class="at">-y</span> copr enable elegos/gitflow</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf <span class="at">-y</span> install gitflow</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Node.js и pnpm</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf <span class="at">-y</span> install nodejs npm pnpm</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Настройка pnpm</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> setup</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bashrc</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># commitizen и conventional-changelog</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> add <span class="at">-g</span> commitizen</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> add <span class="at">-g</span> conventional-changelog-cli</span></code></pre></div>
+</section>
+<section id="проверка-версий-инструментов" class="slide level1">
+<h1>Проверка версий инструментов</h1>
+<pre><code>git version 2.49.0
+git flow version 1.12.3 (AVH Edition)
+gh version 2.87.3
+node v22.22.0
+npm 10.9.4
+pnpm 12.9.1</code></pre>
+</section>
+<section id="создание-репозитория-git-extended" class="slide level1">
+<h1>Создание репозитория git-extended</h1>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/work/git-extended</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/work/git-extended</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> repo create git-extended <span class="at">--public</span> <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--description</span> <span class="st">&quot;Git repo for educational purposes&quot;</span> <span class="dt">\</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">--source</span><span class="op">=</span>. <span class="at">--remote</span><span class="op">=</span>origin</span></code></pre></div>
+<p>Результат:</p>
+<pre><code>✓ Created repository Muzxnya/git-extended
+✓ Added remote git@github.com:Muzxnya/git-extended.git</code></pre>
+</section>
+<section id="package.json" class="slide level1">
+<h1>package.json</h1>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;git-extended&quot;</span><span class="fu">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;Git repo for educational purposes&quot;</span><span class="fu">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;main&quot;</span><span class="fu">:</span> <span class="st">&quot;index.js&quot;</span><span class="fu">,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;zhaoxinya &lt;1132258332@rudn.ru&gt;&quot;</span><span class="fu">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;license&quot;</span><span class="fu">:</span> <span class="st">&quot;CC-BY-4.0&quot;</span><span class="fu">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;config&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;commitizen&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;cz-conventional-changelog&quot;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="первый-conventional-commit" class="slide level1">
+<h1>Первый conventional commit</h1>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> cz</span></code></pre></div>
+<p>Выбор:</p>
+<ul>
+<li>type: <code>feat</code></li>
+<li>scope: пропущено</li>
+<li>short description: <code>initial commit</code></li>
+</ul>
+<p>Результат:</p>
+<pre><code>[main (root-commit) 928c072] feat: initial commit</code></pre>
+</section>
+<section id="инициализация-git-flow" class="slide level1">
+<h1>Инициализация git-flow</h1>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow init</span></code></pre></div>
+<p>Параметры:</p>
+<ul>
+<li>main: <code>main</code></li>
+<li>develop: <code>develop</code></li>
+<li>feature: <code>feature/</code></li>
+<li>release: <code>release/</code></li>
+<li>hotfix: <code>hotfix/</code></li>
+<li>tag prefix: <code>v</code></li>
+</ul>
+<p>Публикация:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--all</span></span></code></pre></div>
+</section>
+<section id="релиз-1.0.0" class="slide level1">
+<h1>Релиз 1.0.0</h1>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow release start 1.0.0</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conventional-changelog</span> <span class="at">-p</span> angular <span class="at">-r</span> 0 <span class="op">&gt;</span> CHANGELOG.md</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add CHANGELOG.md</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">&quot;chore(site): add changelog&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow release finish 1.0.0</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--all</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create v1.0.0 <span class="at">-F</span> CHANGELOG.md <span class="at">-t</span> <span class="st">&quot;Release 1.0.0&quot;</span></span></code></pre></div>
+</section>
+<section id="changelog.md-1.0.0" class="slide level1">
+<h1>CHANGELOG.md (1.0.0)</h1>
+<pre><code># 1.0.0 (2026-10-07)
+
+### Features
+
+* initial commit ([928c072](...))</code></pre>
+</section>
+<section id="разработка-новой-функциональности" class="slide level1">
+<h1>Разработка новой функциональности</h1>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow feature start feature_branch</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;New feature content&quot;</span> <span class="op">&gt;</span> feature.txt</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add feature.txt</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> cz</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow feature finish feature_branch</span></code></pre></div>
+<p>Коммит:</p>
+<pre><code>[develop 7da1cc4] feat: add new feature.txt</code></pre>
+</section>
+<section id="релиз-1.2.3" class="slide level1">
+<h1>Релиз 1.2.3</h1>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow release start 1.2.3</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># обновить версию в package.json → 1.2.3</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conventional-changelog</span> <span class="at">-p</span> angular <span class="at">-r</span> 0 <span class="op">&gt;</span> CHANGELOG.md</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add CHANGELOG.md package.json</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">&quot;chore(site): update changelog and version&quot;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> flow release finish 1.2.3</span></code></pre></div>
+</section>
+<section id="конфликт-слияния" class="slide level1">
+<h1>Конфликт слияния</h1>
+<p>При <code>git flow release finish 1.2.3</code> возник конфликт:</p>
+<pre><code>CONFLICT (add/add): Merge conflict in CHANGELOG.md
+Automatic merge failed; fix conflicts and then commit the result.</code></pre>
+<p>Разрешение:</p>
+<ul>
+<li>вручную удалены маркеры <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>,
+<code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code></li>
+<li>оставлены обе строки Features</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add CHANGELOG.md</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">&quot;Merge branch &#39;release/1.2.3&#39;&quot;</span></span></code></pre></div>
+</section>
+<section id="changelog.md-1.2.3" class="slide level1">
+<h1>CHANGELOG.md (1.2.3)</h1>
+<pre><code># 1.2.3 (2026-10-07)
+
+### Features
+
+* add new feature.txt ([7da1cc4](...))
+* initial commit ([928c072](...))</code></pre>
+</section>
+<section id="публикация-релиза-1.2.3" class="slide level1">
+<h1>Публикация релиза 1.2.3</h1>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-a</span> v1.2.3 <span class="at">-m</span> <span class="st">&quot;Release 1.2.3&quot;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--all</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create v1.2.3 <span class="at">-F</span> CHANGELOG.md <span class="at">-t</span> <span class="st">&quot;Release 1.2.3&quot;</span></span></code></pre></div>
+<p>Результат:</p>
+<pre><code>https://github.com/Muzxnya/git-extended/releases/tag/v1.2.3</code></pre>
+</section>
+<section id="список-релизов" class="slide level1">
+<h1>Список релизов</h1>
+<pre><code>TITLE           TYPE      TAG NAME   PUBLISHED
+Release 1.2.3   Latest    v1.2.3     about 1 minute ago
+Release 1.0.0             v1.0.0     about 30 minutes ago</code></pre>
+</section>
+<section id="выводы" class="slide level1">
+<h1>Выводы</h1>
+<ul>
+<li>Освоена методология <strong>Gitflow</strong></li>
+<li>Изучена спецификация <strong>Conventional Commits</strong></li>
+<li>Освоено <strong>семантическое версионирование</strong></li>
+<li>Применена автоматическая генерация <strong>CHANGELOG</strong></li>
+<li>Освоена утилита <strong>gh</strong> для работы с GitHub</li>
+<li>Получены навыки <strong>разрешения конфликтов слияния</strong></li>
+</ul>
+<p>Все релизы опубликованы в репозитории <code>git-extended</code>.</p>
+</section>
+<section id="ответы-на-контрольные-вопросы-13" class="slide level1">
+<h1>Ответы на контрольные вопросы (1/3)</h1>
+<p><strong>1. Что такое Gitflow?</strong></p>
+<p>Модель ветвления Git, предложенная Винсентом Дриссеном. Использует
+две долгоживущие ветки (<code>main</code>, <code>develop</code>) и
+временные (<code>feature</code>, <code>release</code>,
+<code>hotfix</code>).</p>
+<p><strong>2. Какие основные ветки используются в Gitflow?</strong></p>
+<ul>
+<li><code>main</code> — история релизов</li>
+<li><code>develop</code> — интеграция функций</li>
+<li><code>feature/*</code> — разработка</li>
+<li><code>release/*</code> — подготовка релиза</li>
+<li><code>hotfix/*</code> — срочные исправления</li>
+</ul>
+</section>
+<section id="ответы-на-контрольные-вопросы-23" class="slide level1">
+<h1>Ответы на контрольные вопросы (2/3)</h1>
+<p><strong>3. Что такое семантическое версионирование?</strong></p>
+<p>Система нумерации <code>МАЖОРНАЯ.МИНОРНАЯ.ПАТЧ</code>:</p>
+<ul>
+<li>МАЖОРНАЯ — несовместимые изменения API</li>
+<li>МИНОРНАЯ — новая функциональность</li>
+<li>ПАТЧ — обратно совместимые исправления</li>
+</ul>
+<p><strong>4. Что такое Conventional Commits?</strong></p>
+<p>Спецификация структуры сообщений коммитов:</p>
+<pre><code>&lt;тип&gt;(&lt;область&gt;): &lt;описание&gt;</code></pre>
+</section>
+<section id="ответы-на-контрольные-вопросы-33" class="slide level1">
+<h1>Ответы на контрольные вопросы (3/3)</h1>
+<p><strong>5. Связь Conventional Commits и SemVer?</strong></p>
+<p><code>fix</code> → PATCH, <code>feat</code> → MINOR,
+<code>BREAKING CHANGE</code> → MAJOR.</p>
+<p><strong>6. Что делает <code>git flow init</code>?</strong></p>
+<p>Инициализирует структуру Gitflow, создаёт <code>develop</code>,
+настраивает префиксы.</p>
+<p><strong>7. Что делает
+<code>git flow release start 1.0.0</code>?</strong></p>
+<p>Создаёт ветку <code>release/1.0.0</code> на основе
+<code>develop</code>.</p>
+<p><strong>8. Что делает
+<code>git flow release finish 1.0.0</code>?</strong></p>
+<p>Сливает релиз в <code>main</code> и <code>develop</code>, создаёт
+тег, удаляет релизную ветку.</p>
+<p><strong>9. Что такое CHANGELOG?</strong></p>
+<p>Файл со списком изменений по версиям.</p>
+<p><strong>10. Как создать релиз на GitHub?</strong></p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> release create v1.0.0 <span class="at">-F</span> CHANGELOG.md <span class="at">-t</span> <span class="st">&quot;Release 1.0.0&quot;</span></span></code></pre></div>
+</section>
+<section id="спасибо-за-внимание" class="slide level1">
+<h1>Спасибо за внимание!</h1>
+<p><strong>Репозиторий:</strong><br />
+https://github.com/Muzxnya/git-extended</p>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^5/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^5/plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^5/plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^5/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
