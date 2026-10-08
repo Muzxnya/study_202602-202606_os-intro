@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+  .markdown-body {
+  --base-size-16: 1rem;
+  --base-size-24: 1.5rem;
+  --base-size-4: 0.25rem;
+  --base-size-40: 2.5rem;
+  --base-size-8: 0.5rem;
+  --base-text-weight-medium: 500;
+  --base-text-weight-normal: 400;
+  --base-text-weight-semibold: 600;
+  --fontStack-monospace: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  --fontStack-sansSerif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --fgColor-accent: Highlight;
+}
+@media (prefers-color-scheme: dark) {
+  .markdown-body, [data-theme="dark"] {
+    /*dark */
+    --csstools-color-scheme--light:  ;
+    color-scheme: dark;
+    --fgColor-accent: #4493f8;
+    --bgColor-attention-muted: rgba(187,128,9,0.14902);
+    --bgColor-default: #0d1117;
+    --bgColor-muted: #151b23;
+    --bgColor-neutral-muted: rgba(101,108,118,0.2);
+    --borderColor-accent-emphasis: #1f6feb;
+    --borderColor-attention-emphasis: #9e6a03;
+    --borderColor-danger-emphasis: #da3633;
+    --borderColor-default: #3d444d;
+    --borderColor-done-emphasis: #8957e5;
+    --borderColor-success-emphasis: #238636;
+    --color-prettylights-syntax-brackethighlighter-angle: #9198a1;
+    --color-prettylights-syntax-brackethighlighter-unmatched: #f85149;
+    --color-prettylights-syntax-carriage-return-bg: #b62324;
+    --color-prettylights-syntax-carriage-return-text: #f0f6fc;
+    --color-prettylights-syntax-comment: #9198a1;
+    --color-prettylights-syntax-constant: #79c0ff;
+    --color-prettylights-syntax-constant-other-reference-link: #a5d6ff;
+    --color-prettylights-syntax-entity: #d2a8ff;
+    --color-prettylights-syntax-entity-tag: #7ee787;
+    --color-prettylights-syntax-keyword: #ff7b72;
+    --color-prettylights-syntax-markup-bold: #f0f6fc;
+    --color-prettylights-syntax-markup-changed-bg: #5a1e02;
+    --color-prettylights-syntax-markup-changed-text: #ffdfb6;
+    --color-prettylights-syntax-markup-deleted-bg: #67060c;
+    --color-prettylights-syntax-markup-deleted-text: #ffdcd7;
+    --color-prettylights-syntax-markup-heading: #1f6feb;
+    --color-prettylights-syntax-markup-ignored-bg: #1158c7;
+    --color-prettylights-syntax-markup-ignored-text: #f0f6fc;
+    --color-prettylights-syntax-markup-inserted-bg: #033a16;
+    --color-prettylights-syntax-markup-inserted-text: #aff5b4;
+    --color-prettylights-syntax-markup-italic: #f0f6fc;
+    --color-prettylights-syntax-markup-list: #f2cc60;
+    --color-prettylights-syntax-meta-diff-range: #d2a8ff;
+    --color-prettylights-syntax-storage-modifier-import: #f0f6fc;
+    --color-prettylights-syntax-string: #a5d6ff;
+    --color-prettylights-syntax-string-regexp: #7ee787;
+    --color-prettylights-syntax-sublimelinter-gutter-mark: #3d444d;
+    --color-prettylights-syntax-variable: #ffa657;
+    --fgColor-attention: #d29922;
+    --fgColor-danger: #f85149;
+    --fgColor-default: #f0f6fc;
+    --fgColor-done: #ab7df8;
+    --fgColor-muted: #9198a1;
+    --fgColor-success: #3fb950;
+    --borderColor-muted: rgba(61,68,77,0.70196);
+    --color-prettylights-syntax-invalid-illegal-bg: var(--bgColor-danger-muted);
+    --color-prettylights-syntax-invalid-illegal-text: var(--fgColor-danger);
+    --focus-outlineColor: var(--borderColor-accent-emphasis);
+    --borderColor-neutral-muted: var(--borderColor-muted);
+  }
+}
+@media (prefers-color-scheme: light) {
+  .markdown-body, [data-theme="light"] {
+    /*light */
+    --csstools-color-scheme--light: initial;
+    color-scheme: light;
+    --fgColor-danger: #d1242f;
+    --bgColor-attention-muted: #fff8c5;
+    --bgColor-muted: #f6f8fa;
+    --bgColor-neutral-muted: rgba(129,139,152,0.12157);
+    --borderColor-accent-emphasis: #0969da;
+    --borderColor-attention-emphasis: #9a6700;
+    --borderColor-danger-emphasis: #cf222e;
+    --borderColor-default: #d1d9e0;
+    --borderColor-done-emphasis: #8250df;
+    --borderColor-success-emphasis: #1a7f37;
+    --color-prettylights-syntax-brackethighlighter-angle: #59636e;
+    --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
+    --color-prettylights-syntax-carriage-return-bg: #cf222e;
+    --color-prettylights-syntax-carriage-return-text: #f6f8fa;
+    --color-prettylights-syntax-comment: #59636e;
+    --color-prettylights-syntax-constant: #0550ae;
+    --color-prettylights-syntax-constant-other-reference-link: #0a3069;
+    --color-prettylights-syntax-entity: #6639ba;
+    --color-prettylights-syntax-entity-tag: #0550ae;
+    --color-prettylights-syntax-invalid-illegal-text: var(--fgColor-danger);
+    --color-prettylights-syntax-keyword: #cf222e;
+    --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
+    --color-prettylights-syntax-markup-changed-text: #953800;
+    --color-prettylights-syntax-markup-deleted-bg: #ffebe9;
+    --color-prettylights-syntax-markup-deleted-text: #82071e;
+    --color-prettylights-syntax-markup-heading: #0550ae;
+    --color-prettylights-syntax-markup-ignored-bg: #0550ae;
+    --color-prettylights-syntax-markup-ignored-text: #d1d9e0;
+    --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
+    --color-prettylights-syntax-markup-inserted-text: #116329;
+    --color-prettylights-syntax-markup-list: #3b2300;
+    --color-prettylights-syntax-meta-diff-range: #8250df;
+    --color-prettylights-syntax-string: #0a3069;
+    --color-prettylights-syntax-string-regexp: #116329;
+    --color-prettylights-syntax-sublimelinter-gutter-mark: #818b98;
+    --color-prettylights-syntax-variable: #953800;
+    --fgColor-accent: #0969da;
+    --fgColor-attention: #9a6700;
+    --fgColor-done: #8250df;
+    --fgColor-muted: #59636e;
+    --fgColor-success: #1a7f37;
+    --bgColor-default: #ffffff;
+    --borderColor-muted: rgba(209,217,224,0.70196);
+    --color-prettylights-syntax-invalid-illegal-bg: var(--bgColor-danger-muted);
+    --color-prettylights-syntax-markup-bold: #1f2328;
+    --color-prettylights-syntax-markup-italic: #1f2328;
+    --color-prettylights-syntax-storage-modifier-import: #1f2328;
+    --fgColor-default: #1f2328;
+    --focus-outlineColor: var(--borderColor-accent-emphasis);
+    --borderColor-neutral-muted: var(--borderColor-muted);
+  }
+}
+
+.markdown-body {
+  /** CSS default easing. Use for hover state changes and micro-interactions. */
+  /** Accelerating motion. Use for elements exiting the viewport (moving off-screen). */
+  /** Smooth acceleration and deceleration. Use for elements moving or morphing within the viewport. */
+  /** Decelerating motion. Use for elements entering the viewport or appearing on screen. */
+  /** Constant motion with no acceleration. Use for continuous animations like progress bars or loaders. */
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  margin: 0;
+  font-weight: 400;
+  font-weight: var(--base-text-weight-normal, 400);
+  color: var(--fgColor-default);
+  background-color: var(--bgColor-default);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: var(--fontStack-sansSerif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji");
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-underline-offset: .2rem;
+}
+
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body h1:hover .anchor .octicon-link:before,
+.markdown-body h2:hover .anchor .octicon-link:before,
+.markdown-body h3:hover .anchor .octicon-link:before,
+.markdown-body h4:hover .anchor .octicon-link:before,
+.markdown-body h5:hover .anchor .octicon-link:before,
+.markdown-body h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");
+}
+
+.markdown-body details,
+.markdown-body figcaption,
+.markdown-body figure {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body [hidden] {
+  display: none !important;
+}
+
+.markdown-body a {
+  background-color: rgba(0,0,0,0);
+  color: var(--fgColor-accent);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.markdown-body abbr[title] {
+  border-bottom: none;
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+}
+
+.markdown-body dfn {
+  font-style: italic;
+}
+
+.markdown-body h1 {
+  margin: .67em 0;
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  padding-bottom: .3em;
+  font-size: 2em;
+  border-bottom: 1px solid var(--borderColor-muted);
+}
+
+.markdown-body mark {
+  background-color: var(--bgColor-attention-muted);
+  color: var(--fgColor-default);
+}
+
+.markdown-body small {
+  font-size: 90%;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body sup {
+  top: -0.5em;
+}
+
+.markdown-body img {
+  border-style: none;
+  max-width: 100%;
+  box-sizing: content-box;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace;
+  font-size: 1em;
+}
+
+.markdown-body figure {
+  margin: 1em var(--base-size-40);
+}
+
+.markdown-body hr {
+  box-sizing: content-box;
+  overflow: hidden;
+  background: rgba(0,0,0,0);
+  border-bottom: 1px solid var(--borderColor-muted);
+  height: .25em;
+  padding: 0;
+  margin: var(--base-size-24) 0;
+  background-color: var(--borderColor-default);
+  border: 0;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+  overflow: visible;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body [type=button],
+.markdown-body [type=reset],
+.markdown-body [type=submit] {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+       appearance: button;
+}
+
+.markdown-body [type=checkbox],
+.markdown-body [type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body [type=number]::-webkit-inner-spin-button,
+.markdown-body [type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+.markdown-body [type=search]::-webkit-search-cancel-button,
+.markdown-body [type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body ::-webkit-input-placeholder {
+  color: inherit;
+  opacity: .54;
+}
+
+.markdown-body ::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  appearance: button;
+  font: inherit;
+}
+
+.markdown-body a:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.markdown-body ::-moz-placeholder {
+  color: var(--fgColor-muted);
+  opacity: 1;
+}
+
+.markdown-body ::placeholder {
+  color: var(--fgColor-muted);
+  opacity: 1;
+}
+
+.markdown-body hr::before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+  font-feature-settings: "tnum";
+  font-variant: tabular-nums;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body a:focus,
+.markdown-body [role=button]:focus,
+.markdown-body input[type=radio]:focus,
+.markdown-body input[type=checkbox]:focus {
+  outline: 2px solid var(--focus-outlineColor);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.markdown-body a:focus:not(:focus-visible),
+.markdown-body [role=button]:focus:not(:focus-visible),
+.markdown-body input[type=radio]:focus:not(:focus-visible),
+.markdown-body input[type=checkbox]:focus:not(:focus-visible) {
+  outline: solid 1px rgba(0,0,0,0);
+}
+
+.markdown-body a:focus-visible,
+.markdown-body [role=button]:focus-visible,
+.markdown-body input[type=radio]:focus-visible,
+.markdown-body input[type=checkbox]:focus-visible {
+  outline: 2px solid var(--focus-outlineColor);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.markdown-body a:not([class]):focus,
+.markdown-body a:not([class]):focus-visible,
+.markdown-body input[type=radio]:focus,
+.markdown-body input[type=radio]:focus-visible,
+.markdown-body input[type=checkbox]:focus,
+.markdown-body input[type=checkbox]:focus-visible {
+  outline-offset: 0;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: var(--base-size-4);
+  font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font: 11px var(--fontStack-monospace, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace);
+  line-height: 10px;
+  color: var(--fgColor-default);
+  vertical-align: middle;
+  background-color: var(--bgColor-muted);
+  border: solid 1px var(--borderColor-neutral-muted);
+  border-bottom-color: var(--borderColor-neutral-muted);
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 var(--borderColor-neutral-muted);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: var(--base-size-24);
+  margin-bottom: var(--base-size-16);
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  line-height: 1.25;
+}
+
+.markdown-body h2 {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  padding-bottom: .3em;
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--borderColor-muted);
+}
+
+.markdown-body h3 {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  font-size: .85em;
+  color: var(--fgColor-muted);
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+  padding: 0 1em;
+  color: var(--fgColor-muted);
+  border-left: .25em solid var(--borderColor-default);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body tt,
+.markdown-body code,
+.markdown-body samp {
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-family: var(--fontStack-monospace, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace);
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-family: var(--fontStack-monospace, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace);
+  font-size: 12px;
+  word-wrap: normal;
+}
+
+.markdown-body .octicon {
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-body input::-webkit-outer-spin-button,
+.markdown-body input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+.markdown-body .mr-2 {
+  margin-right: 8px !important;
+  margin-right: var(--base-size-8, 8px) !important;
+}
+
+.markdown-body::before {
+  display: table;
+  content: "";
+}
+
+.markdown-body::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.markdown-body .absent {
+  color: var(--fgColor-danger);
+}
+
+.markdown-body .anchor {
+  float: left;
+  padding-right: var(--base-size-4);
+  margin-left: -20px;
+  line-height: 1;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body details {
+  margin-top: 0;
+  margin-bottom: var(--base-size-16);
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: var(--fgColor-default);
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body h1 tt,
+.markdown-body h1 code,
+.markdown-body h2 tt,
+.markdown-body h2 code,
+.markdown-body h3 tt,
+.markdown-body h3 code,
+.markdown-body h4 tt,
+.markdown-body h4 code,
+.markdown-body h5 tt,
+.markdown-body h5 code,
+.markdown-body h6 tt,
+.markdown-body h6 code {
+  padding: 0 .2em;
+  font-size: inherit;
+}
+
+.markdown-body summary h1,
+.markdown-body summary h2,
+.markdown-body summary h3,
+.markdown-body summary h4,
+.markdown-body summary h5,
+.markdown-body summary h6 {
+  display: inline-block;
+}
+
+.markdown-body summary h1 .anchor,
+.markdown-body summary h2 .anchor,
+.markdown-body summary h3 .anchor,
+.markdown-body summary h4 .anchor,
+.markdown-body summary h5 .anchor,
+.markdown-body summary h6 .anchor {
+  margin-left: -40px;
+}
+
+.markdown-body summary h1,
+.markdown-body summary h2 {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.markdown-body ul.no-list,
+.markdown-body ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+
+.markdown-body ol[type="a s"] {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body ol[type="A s"] {
+  list-style-type: upper-alpha;
+}
+
+.markdown-body ol[type="i s"] {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol[type="I s"] {
+  list-style-type: upper-roman;
+}
+
+.markdown-body ol[type="1"] {
+  list-style-type: decimal;
+}
+
+.markdown-body div>ol:not([type]) {
+  list-style-type: decimal;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: var(--base-size-16);
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: var(--base-size-16);
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+}
+
+.markdown-body dl dd {
+  padding: 0 var(--base-size-16);
+  margin-bottom: var(--base-size-16);
+}
+
+.markdown-body table th {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid var(--borderColor-default);
+}
+
+.markdown-body table td>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table tr {
+  background-color: var(--bgColor-default);
+  border-top: 1px solid var(--borderColor-muted);
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: var(--bgColor-muted);
+}
+
+.markdown-body table img {
+  background-color: rgba(0,0,0,0);
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body .emoji {
+  max-width: none;
+  vertical-align: text-top;
+  background-color: rgba(0,0,0,0);
+}
+
+.markdown-body span.frame {
+  display: block;
+  overflow: hidden;
+}
+
+.markdown-body span.frame>span {
+  display: block;
+  float: left;
+  width: auto;
+  padding: 7px;
+  margin: 13px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--borderColor-default);
+}
+
+.markdown-body span.frame span img {
+  display: block;
+  float: left;
+}
+
+.markdown-body span.frame span span {
+  display: block;
+  padding: 5px 0 0;
+  clear: both;
+  color: var(--fgColor-default);
+}
+
+.markdown-body span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+.markdown-body span.align-center>span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.markdown-body span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.markdown-body span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+.markdown-body span.align-right>span {
+  display: block;
+  margin: 13px 0 0;
+  overflow: hidden;
+  text-align: right;
+}
+
+.markdown-body span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+
+.markdown-body span.float-left {
+  display: block;
+  float: left;
+  margin-right: 13px;
+  overflow: hidden;
+}
+
+.markdown-body span.float-left span {
+  margin: 13px 0 0;
+}
+
+.markdown-body span.float-right {
+  display: block;
+  float: right;
+  margin-left: 13px;
+  overflow: hidden;
+}
+
+.markdown-body span.float-right>span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: right;
+}
+
+.markdown-body code,
+.markdown-body tt {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  background-color: var(--bgColor-neutral-muted);
+  border-radius: 6px;
+}
+
+.markdown-body code br,
+.markdown-body tt br {
+  display: none;
+}
+
+.markdown-body del code {
+  text-decoration: inherit;
+}
+
+.markdown-body samp {
+  font-size: 85%;
+}
+
+.markdown-body pre code {
+  font-size: 100%;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  word-break: normal;
+  white-space: pre;
+  background: rgba(0,0,0,0);
+  border: 0;
+}
+
+.markdown-body .highlight {
+  margin-bottom: var(--base-size-16);
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: var(--base-size-16);
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  color: var(--fgColor-default);
+  background-color: var(--bgColor-muted);
+  border-radius: 6px;
+}
+
+.markdown-body pre code,
+.markdown-body pre tt {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: rgba(0,0,0,0);
+  border: 0;
+}
+
+.markdown-body .csv-data td,
+.markdown-body .csv-data th {
+  padding: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.markdown-body .csv-data .blob-num {
+  padding: 10px var(--base-size-8) 9px;
+  text-align: right;
+  background: var(--bgColor-default);
+  border: 0;
+}
+
+.markdown-body .csv-data tr {
+  border-top: 0;
+}
+
+.markdown-body .csv-data th {
+  font-weight: 600;
+  font-weight: var(--base-text-weight-semibold, 600);
+  background: var(--bgColor-muted);
+  border-top: 0;
+}
+
+.markdown-body [data-footnote-ref]::before {
+  content: "[";
+}
+
+.markdown-body [data-footnote-ref]::after {
+  content: "]";
+}
+
+.markdown-body .footnotes {
+  font-size: 12px;
+  color: var(--fgColor-muted);
+  border-top: 1px solid var(--borderColor-default);
+}
+
+.markdown-body .footnotes ol {
+  padding-left: var(--base-size-16);
+}
+
+.markdown-body .footnotes ol ul {
+  display: inline-block;
+  padding-left: var(--base-size-16);
+  margin-top: var(--base-size-16);
+}
+
+.markdown-body .footnotes li {
+  position: relative;
+}
+
+.markdown-body .footnotes li:target::before {
+  position: absolute;
+  top: calc(var(--base-size-8)*-1);
+  right: calc(var(--base-size-8)*-1);
+  bottom: calc(var(--base-size-8)*-1);
+  left: calc(var(--base-size-24)*-1);
+  pointer-events: none;
+  content: "";
+  border: 2px solid var(--borderColor-accent-emphasis);
+  border-radius: 6px;
+}
+
+.markdown-body .footnotes li:target {
+  color: var(--fgColor-default);
+}
+
+.markdown-body .footnotes .data-footnote-backref g-emoji {
+  font-family: monospace;
+}
+
+.markdown-body .pl-c {
+  color: var(--color-prettylights-syntax-comment);
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: var(--color-prettylights-syntax-constant);
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: var(--color-prettylights-syntax-entity);
+}
+
+.markdown-body .pl-smi,
+.markdown-body .pl-s .pl-s1 {
+  color: var(--color-prettylights-syntax-storage-modifier-import);
+}
+
+.markdown-body .pl-ent {
+  color: var(--color-prettylights-syntax-entity-tag);
+}
+
+.markdown-body .pl-k {
+  color: var(--color-prettylights-syntax-keyword);
+}
+
+.markdown-body .pl-s,
+.markdown-body .pl-pds,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sre,
+.markdown-body .pl-sr .pl-sra {
+  color: var(--color-prettylights-syntax-string);
+}
+
+.markdown-body .pl-v,
+.markdown-body .pl-smw {
+  color: var(--color-prettylights-syntax-variable);
+}
+
+.markdown-body .pl-bu {
+  color: var(--color-prettylights-syntax-brackethighlighter-unmatched);
+}
+
+.markdown-body .pl-ii {
+  color: var(--color-prettylights-syntax-invalid-illegal-text);
+  background-color: var(--color-prettylights-syntax-invalid-illegal-bg);
+}
+
+.markdown-body .pl-c2 {
+  color: var(--color-prettylights-syntax-carriage-return-text);
+  background-color: var(--color-prettylights-syntax-carriage-return-bg);
+}
+
+.markdown-body .pl-sr .pl-cce {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-string-regexp);
+}
+
+.markdown-body .pl-ml {
+  color: var(--color-prettylights-syntax-markup-list);
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-markup-heading);
+}
+
+.markdown-body .pl-mi {
+  font-style: italic;
+  color: var(--color-prettylights-syntax-markup-italic);
+}
+
+.markdown-body .pl-mb {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-markup-bold);
+}
+
+.markdown-body .pl-md {
+  color: var(--color-prettylights-syntax-markup-deleted-text);
+  background-color: var(--color-prettylights-syntax-markup-deleted-bg);
+}
+
+.markdown-body .pl-mi1 {
+  color: var(--color-prettylights-syntax-markup-inserted-text);
+  background-color: var(--color-prettylights-syntax-markup-inserted-bg);
+}
+
+.markdown-body .pl-mc {
+  color: var(--color-prettylights-syntax-markup-changed-text);
+  background-color: var(--color-prettylights-syntax-markup-changed-bg);
+}
+
+.markdown-body .pl-mi2 {
+  color: var(--color-prettylights-syntax-markup-ignored-text);
+  background-color: var(--color-prettylights-syntax-markup-ignored-bg);
+}
+
+.markdown-body .pl-mdr {
+  font-weight: bold;
+  color: var(--color-prettylights-syntax-meta-diff-range);
+}
+
+.markdown-body .pl-ba {
+  color: var(--color-prettylights-syntax-brackethighlighter-angle);
+}
+
+.markdown-body .pl-sg {
+  color: var(--color-prettylights-syntax-sublimelinter-gutter-mark);
+}
+
+.markdown-body .pl-corl {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: var(--color-prettylights-syntax-constant-other-reference-link);
+}
+
+.markdown-body [role=button]:focus:not(:focus-visible),
+.markdown-body [role=tabpanel][tabindex="0"]:focus:not(:focus-visible),
+.markdown-body button:focus:not(:focus-visible),
+.markdown-body summary:focus:not(:focus-visible),
+.markdown-body a:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+.markdown-body [tabindex="0"]:focus:not(:focus-visible),
+.markdown-body details-dialog:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.markdown-body g-emoji {
+  display: inline-block;
+  min-width: 1ch;
+  font-family: "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 1em;
+  font-style: normal !important;
+  font-weight: 400;
+  font-weight: var(--base-text-weight-normal, 400);
+  line-height: 1;
+  vertical-align: -0.075em;
+}
+
+.markdown-body g-emoji img {
+  width: 1em;
+  height: 1em;
+}
+
+.markdown-body a:has(>p,>div,>pre,>blockquote) {
+  display: block;
+}
+
+.markdown-body a:has(>p,>div,>pre,>blockquote):not(:has(.snippet-clipboard-content,>pre)) {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.markdown-body a:has(>p,>div,>pre,>blockquote):has(.snippet-clipboard-content,>pre):focus-visible {
+  outline: 2px solid var(--focus-outlineColor);
+  outline-offset: 2px;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item label {
+  font-weight: 400;
+  font-weight: var(--base-text-weight-normal, 400);
+}
+
+.markdown-body .task-list-item.enabled label {
+  cursor: pointer;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: var(--base-size-4);
+}
+
+.markdown-body .task-list-item .handle {
+  display: none;
+}
+
+.markdown-body .task-list-item-checkbox {
+  margin: 0 .2em .25em -1.4em;
+  vertical-align: middle;
+}
+
+[dir="rtl"] .markdown-body ul .task-list-item-checkbox {
+  margin: 0 -1.6em .25em .2em;
+}
+
+[dir="rtl"] .markdown-body ol .task-list-item-checkbox {
+  margin: 0 -1.6em .25em .2em;
+}
+
+.markdown-body .contains-task-list:hover .task-list-item-convert-container,
+.markdown-body .contains-task-list:focus-within .task-list-item-convert-container {
+  display: block;
+  width: auto;
+  height: 24px;
+  overflow: visible;
+  clip-path: none;
+}
+
+.markdown-body ::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
+}
+
+.markdown-body .markdown-alert {
+  padding: var(--base-size-8) var(--base-size-16);
+  margin-bottom: var(--base-size-16);
+  color: inherit;
+  border-left: .25em solid var(--borderColor-default);
+}
+
+.markdown-body .markdown-alert>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body .markdown-alert>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body .markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  font-weight: var(--base-text-weight-medium, 500);
+  align-items: center;
+  line-height: 1;
+}
+
+.markdown-body .markdown-alert.markdown-alert-note {
+  border-left-color: var(--borderColor-accent-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--fgColor-accent);
+}
+
+.markdown-body .markdown-alert.markdown-alert-important {
+  border-left-color: var(--borderColor-done-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--fgColor-done);
+}
+
+.markdown-body .markdown-alert.markdown-alert-warning {
+  border-left-color: var(--borderColor-attention-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--fgColor-attention);
+}
+
+.markdown-body .markdown-alert.markdown-alert-tip {
+  border-left-color: var(--borderColor-success-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--fgColor-success);
+}
+
+.markdown-body .markdown-alert.markdown-alert-caution {
+  border-left-color: var(--borderColor-danger-emphasis);
+}
+
+.markdown-body .markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--fgColor-danger);
+}
+
+.markdown-body>*:first-child>.heading-element:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .highlight pre:has(+.zeroclipboard-container) {
+  min-height: 52px;
+}
+
+
+  </style>
+  <style>
+  /**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection, code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+  </style>
+  <style>
+  
+  </style>
+  <style>
+    .markdown-body {
+      font-family: -apple-system,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+
+    @media not print {
+      .markdown-body {
+        padding: 45px;
+      }
+
+      @media (max-width: 767px) {
+        .markdown-body {
+          padding: 15px;
+        }
+      }
+    }
+
+    .hf-container {
+      color: #24292e;
+      line-height: 1.3;
+    }
+
+    .markdown-body .highlight pre,
+    .markdown-body pre {
+      white-space: pre-wrap;
+    }
+    .markdown-body table {
+      display: table;
+    }
+    .markdown-body img[data-align="center"] {
+      display: block;
+      margin: 0 auto;
+    }
+    .markdown-body img[data-align="right"] {
+      display: block;
+      margin: 0 0 0 auto;
+    }
+    .markdown-body li.task-list-item {
+      list-style-type: none;
+    }
+    .markdown-body li > [type=checkbox] {
+      margin: 0 0 0 -1.3em;
+    }
+    .markdown-body input[type="checkbox"] ~ p {
+      margin-top: 0;
+      display: inline-block;
+    }
+    .markdown-body ol ol,
+    .markdown-body ul ol {
+      list-style-type: decimal;
+    }
+    .markdown-body ol ol ol,
+    .markdown-body ol ul ol,
+    .markdown-body ul ol ol,
+    .markdown-body ul ul ol {
+      list-style-type: decimal;
+    }
+  </style>
+  <style>.markdown-body a.footnote-ref {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.footnotes {
+  font-size: .85em;
+  opacity: .8;
+}
+
+.footnotes li[role="doc-endnote"] {
+  position: relative;
+}
+
+.footnotes .footnote-back {
+  position: absolute;
+  font-family: serif;
+  font-family: initial;
+  top: .2em;
+  right: 1em;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.inline-math.invalid,
+.multiple-math.invalid {
+  color: rgb(255, 105, 105);
+}
+
+.toc-container {
+  width: 100%;
+}
+
+.toc-container .toc-title {
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-bottom: 0;
+}
+
+.toc-container li,
+.toc-container ul,
+.toc-container ul li {
+  list-style: none !important;
+}
+
+.toc-container > ul {
+  padding-left: 0;
+}
+
+.toc-container ul li span {
+  display : flex;
+}
+
+.toc-container ul li span a {
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+.toc-container ul li span a:hover {
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.toc-container ul li span span.dots {
+  flex: 1;
+  height: 0.65em;
+  margin: 0 10px;
+  border-bottom: 2px dotted black;
+}
+</style>
+  <style>.markdown-body{}pre.front-matter{display:none!important;}</style>
+</head>
+<body>
+  <article class="markdown-body"><h1 id="laboratornaya-rabota-№-4" class="atx">Лабораторная работа № 4</h1>
+<h2 id="prodvinutoe-ispolzovanie-git" class="atx">Продвинутое использование git</h2>
+<p><strong>Студент:</strong> Чжао Синья<br><strong>Учётная запись:</strong> zhaoxinya<br><strong>Имя хоста:</strong> zhaoxinya<br><strong>Номер студенческого билета:</strong> 113225832<br><strong>Дисциплина:</strong> Архитектура компьютеров и операционные системы. Операционные системы</p>
+<hr>
+<h2 id="soderzhanie" class="atx">Содержание</h2>
+<ol>
+<li><a href="#%D1%86%D0%B5%D0%BB%D1%8C-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B">Цель работы</a></li>
+<li><a href="#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B">Задание работы</a></li>
+<li><a href="#%D1%82%D0%B5%D0%BE%D1%80%D0%B5%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F">Теоретические сведения</a></li>
+<li><a href="#%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BE%D0%B1-%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B8">Соглашения об именовании</a></li>
+<li><a href="#%D1%85%D0%BE%D0%B4-%D0%B2%D1%8B%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B">Ход выполнения работы</a></li>
+<li><a href="#%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D1%8B">Выводы</a></li>
+<li><a href="#%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%8B-%D0%BD%D0%B0-%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B">Ответы на контрольные вопросы</a></li>
+<li><a href="#%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F">Библиография</a></li>
+</ol>
+<hr>
+<h2 id="cel-raboty" class="atx">Цель работы</h2>
+<p>Получение навыков правильной работы с репозиториями git. Освоение методологии git-flow, семантического версионирования и общепринятых коммитов (Conventional Commits).</p>
+<hr>
+<h2 id="zadanie-raboty" class="atx">Задание работы</h2>
+<ol>
+<li>Установить необходимое программное обеспечение (git-flow, Node.js, pnpm, commitizen, conventional-changelog).</li>
+<li>Создать новый репозиторий <code>git-extended</code> на GitHub.</li>
+<li>Настроить и применить спецификацию Conventional Commits.</li>
+<li>Освоить рабочий процесс Gitflow: создание функциональных веток, релизных веток, веток исправлений.</li>
+<li>Применить семантическое версионирование при создании релизов.</li>
+<li>Создать релизы 1.0.0 и 1.2.3 с автоматической генерацией журнала изменений (CHANGELOG).</li>
+</ol>
+<hr>
+<h2 id="teoreticheskie-svedeniya" class="atx">Теоретические сведения</h2>
+<h3 id="rabochij-process-gitflow" class="atx">Рабочий процесс Gitflow</h3>
+<p>Gitflow Workflow — модель ветвления, предложенная Винсентом Дриссеном. Основные ветки:</p>
+<ul>
+<li><code>main</code> — хранит официальную историю релизов;</li>
+<li><code>develop</code> — ветка для объединения всех новых функций.</li>
+</ul>
+<p>Дополнительные ветки:</p>
+<ul>
+<li><code>feature/*</code> — для разработки отдельных функций (создаются от <code>develop</code>);</li>
+<li><code>release/*</code> — для подготовки релиза (создаются от <code>develop</code>, сливаются в <code>main</code> и <code>develop</code>);</li>
+<li><code>hotfix/*</code> — для срочных исправлений (создаются от <code>main</code>, сливаются в <code>main</code> и <code>develop</code>).</li>
+</ul>
+<h3 id="semanticheskoe-versionirovanie" class="atx">Семантическое версионирование</h3>
+<p>Версия задаётся в виде <code>МАЖОРНАЯ.МИНОРНАЯ.ПАТЧ</code>:</p>
+<ul>
+<li><strong>МАЖОРНАЯ</strong> — несовместимые изменения API;</li>
+<li><strong>МИНОРНАЯ</strong> — новая функциональность без нарушения обратной совместимости;</li>
+<li><strong>ПАТЧ</strong> — обратно совместимые исправления.</li>
+</ul>
+<h3 id="obsheprinyatye-kommity" class="atx">Общепринятые коммиты</h3>
+<p>Структура коммита:</p>
+<pre><code class="fenced-code-block">&lt;тип&gt;(&lt;область&gt;): &lt;описание изменения&gt;
+&lt;пустая строка&gt;
+[необязательное тело]
+&lt;пустая строка&gt;
+[необязательный нижний колонтитул]</code></pre>
+<p>Основные типы:</p>
+<ul>
+<li><code>feat</code> — новая функция (MINOR);</li>
+<li><code>fix</code> — исправление ошибки (PATCH);</li>
+<li><code>docs</code> — изменения в документации;</li>
+<li><code>chore</code> — служебные изменения;</li>
+<li><code>refactor</code>, <code>style</code>, <code>test</code>, <code>perf</code>, <code>build</code>, <code>ci</code>.</li>
+</ul>
+<hr>
+<h2 id="soglasheniya-ob-imenovanii" class="atx">Соглашения об именовании</h2>
+<p>В соответствии с требованиями курса:</p>
+<ul>
+<li>имя пользователя внутри виртуальной машины: <code>zhaoxinya</code>;</li>
+<li>имя хоста виртуальной машины: <code>zhaoxinya</code>;</li>
+<li>имя виртуальной машины: <code>ZhaoXinya2</code>;</li>
+<li>имя репозитория для эксперимента: <code>git-extended</code>;</li>
+<li>имя основного курсового репозитория: <code>study_202602-202606_os-intro</code>.</li>
+</ul>
+<p>Проверка имени пользователя и хоста:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">whoami</span>
+<span class="token function">hostname</span>
+<span class="token function">id</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-06%20234112.png" alt="屏幕截图 2026-10-06 234112.png"></p>
+<hr>
+<h2 id="hod-vypolneniya-raboty" class="atx">Ход выполнения работы</h2>
+<h3 id="ustanovka-programmnogo-obespecheniya" class="atx">Установка программного обеспечения</h3>
+<p>Установка git-flow через COPR:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">sudo</span> dnf <span class="token parameter variable">-y</span> copr <span class="token builtin class-name">enable</span> elegos/gitflow
+<span class="token function">sudo</span> dnf <span class="token parameter variable">-y</span> <span class="token function">install</span> gitflow</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20001641.png" alt="屏幕截图 2026-10-07 001641.png"></p>
+<p>Установка Node.js и pnpm:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">sudo</span> dnf <span class="token parameter variable">-y</span> <span class="token function">install</span> nodejs <span class="token function">npm</span>
+<span class="token function">sudo</span> dnf <span class="token parameter variable">-y</span> <span class="token function">install</span> <span class="token function">pnpm</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20104743.png" alt="屏幕截图 2026-10-07 104743.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20104834.png" alt="屏幕截图 2026-10-07 104834.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20104853.png" alt="屏幕截图 2026-10-07 104853.png"></p>
+<p>Настройка pnpm:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">pnpm</span> setup
+<span class="token builtin class-name">source</span> ~/.bashrc</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20104932.png" alt="屏幕截图 2026-10-07 104932.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20104942.png" alt="屏幕截图 2026-10-07 104942.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20105022.png" alt="屏幕截图 2026-10-07 105022.png"></p>
+<p>Установка commitizen и conventional-changelog:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-g</span> commitizen
+<span class="token function">pnpm</span> <span class="token function">add</span> <span class="token parameter variable">-g</span> conventional-changelog-cli</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20105119.png" alt="屏幕截图 2026-10-07 105119.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20105500.png" alt="屏幕截图 2026-10-07 105500.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20105508.png" alt="屏幕截图 2026-10-07 105508.png"></p>
+<p>Проверка версий:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> <span class="token parameter variable">--version</span>
+<span class="token function">git</span> flow version
+gh <span class="token parameter variable">--version</span>
+<span class="token function">node</span> <span class="token parameter variable">--version</span>
+<span class="token function">npm</span> <span class="token parameter variable">--version</span>
+<span class="token function">pnpm</span> <span class="token parameter variable">--version</span>
+git-cz <span class="token parameter variable">--version</span>
+conventional-changelog <span class="token parameter variable">--version</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20004650.png" alt="屏幕截图 2026-10-07 004650.png"></p>
+<hr>
+<h3 id="sozdanie-repozitoriya-git-extended" class="atx">Создание репозитория git-extended</h3>
+<p>Создание рабочего каталога и инициализация репозитория:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">mkdir</span> <span class="token parameter variable">-p</span> ~/work/git-extended
+<span class="token builtin class-name">cd</span> ~/work/git-extended
+<span class="token function">git</span> init</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20110845.png" alt="屏幕截图 2026-10-07 110845.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20111203.png" alt="屏幕截图 2026-10-07 111203.png"></p>
+<p>Создание репозитория на GitHub с помощью утилиты <code>gh</code>:</p>
+<pre><code class="fenced-code-block language-bash">gh repo create git-extended <span class="token parameter variable">--public</span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">--description</span> <span class="token string">"Git repo for educational purposes"</span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">--source</span><span class="token operator">=</span>. <span class="token parameter variable">--remote</span><span class="token operator">=</span>origin</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20111518.png" alt="屏幕截图 2026-10-07 111518.png"></p>
+<p>Создание файла <code>package.json</code> с конфигурацией commitizen:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">pnpm</span> init</code></pre>
+<p>После редактирования <code>package.json</code> принял вид:</p>
+<pre><code class="fenced-code-block language-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"git-extended"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"Git repo for educational purposes"</span><span class="token punctuation">,</span>
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"index.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"zhaoxinya &lt;1132258332@rudn.ru&gt;"</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"CC-BY-4.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"config"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"commitizen"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"path"</span><span class="token operator">:</span> <span class="token string">"cz-conventional-changelog"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20111814.png" alt="屏幕截图 2026-10-07 111814.png"></p>
+<hr>
+<h3 id="pervyj-conventional-commit" class="atx">Первый conventional commit</h3>
+<p>Добавление файлов в индекс и создание коммита с помощью <code>git cz</code>:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> cz</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20115337.png" alt="屏幕截图 2026-10-07 115337.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20115517.png" alt="屏幕截图 2026-10-07 115517.png"></p>
+<p>В интерактивном режиме были выбраны параметры:</p>
+<ul>
+<li>type: <code>feat</code></li>
+<li>scope: (пропущено)</li>
+<li>short description: <code>initial commit</code></li>
+<li>остальные поля: пропущены</li>
+</ul>
+<p>Коммит успешно создан:</p>
+<pre><code class="fenced-code-block">[main (root-commit) 928c072] feat: initial commit
+ 2 files changed, 171 insertions(+)
+ create mode 100644 package.json
+ create mode 100644 pnpm-lock.yaml</code></pre>
+<p>Отправка изменений на GitHub:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> branch <span class="token parameter variable">-M</span> main
+<span class="token function">git</span> push <span class="token parameter variable">-u</span> origin main</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20124000.png" alt="屏幕截图 2026-10-07 124000.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20142730.png" alt="屏幕截图 2026-10-07 142730.png"></p>
+<hr>
+<h3 id="inicializaciya-git-flow" class="atx">Инициализация git-flow</h3>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow init</code></pre>
+<p>При инициализации:</p>
+<ul>
+<li>main branch: <code>main</code></li>
+<li>develop branch: <code>develop</code></li>
+<li>feature prefix: <code>feature/</code></li>
+<li>release prefix: <code>release/</code></li>
+<li>hotfix prefix: <code>hotfix/</code></li>
+<li>version tag prefix: <code>v</code></li>
+</ul>
+<p>Проверка текущей ветки:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> branch</code></pre>
+<p>Результат:</p>
+<pre><code class="fenced-code-block">* develop
+  main</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20115929.png" alt="屏幕截图 2026-10-07 115929.png">Публикация ветки develop:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> push <span class="token parameter variable">-u</span> origin develop
+<span class="token function">git</span> push <span class="token parameter variable">--all</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20142904.png" alt="屏幕截图 2026-10-07 142904.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20143014.png" alt="屏幕截图 2026-10-07 143014.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20123047.png" alt="屏幕截图 2026-10-07 123047.png">---</p>
+<h3 id="reliz-100" class="atx">Релиз 1.0.0</h3>
+<p>Создание релизной ветки:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow release start <span class="token number">1.0</span>.0</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20120741.png" alt="屏幕截图 2026-10-07 120741.png"></p>
+<p>Генерация журнала изменений:</p>
+<pre><code class="fenced-code-block language-bash">conventional-changelog <span class="token parameter variable">-p</span> angular <span class="token parameter variable">-r</span> <span class="token number">0</span> <span class="token operator">&gt;</span> CHANGELOG.md
+<span class="token function">cat</span> CHANGELOG.md</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20121200.png" alt="屏幕截图 2026-10-07 121200.png"></p>
+<p>Содержимое <code>CHANGELOG.md</code>:</p>
+<pre><code class="fenced-code-block"># 1.0.0 (2026-10-07)
+
+### Features
+
+* initial commit ([928c072](...))</code></pre>
+<p>Добавление журнала в индекс:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> <span class="token function">add</span> CHANGELOG.md
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"chore(site): add changelog"</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20122754.png" alt="屏幕截图 2026-10-07 122754.png"></p>
+<p>Завершение релиза:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow release finish <span class="token number">1.0</span>.0</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20122940.png" alt="屏幕截图 2026-10-07 122940.png"></p>
+<p>Публикация:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> push <span class="token parameter variable">--all</span>
+<span class="token function">git</span> push <span class="token parameter variable">--tags</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20143014.png" alt="屏幕截图 2026-10-07 143014.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20123127.png" alt="屏幕截图 2026-10-07 123127.png"></p>
+<p>Создание релиза на GitHub:</p>
+<pre><code class="fenced-code-block language-bash">gh release create v1.0.0 <span class="token parameter variable">-F</span> CHANGELOG.md <span class="token parameter variable">-t</span> <span class="token string">"Release 1.0.0"</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20131529.png" alt="屏幕截图 2026-10-07 131529.png"></p>
+<hr>
+<h3 id="razrabotka-novoj-funkcionalnosti" class="atx">Разработка новой функциональности</h3>
+<p>Создание функциональной ветки:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow feature start feature_branch</code></pre>
+<p>Добавление файла и коммит:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"New feature content"</span> <span class="token operator">&gt;</span> feature.txt
+<span class="token function">git</span> <span class="token function">add</span> feature.txt
+<span class="token function">git</span> cz</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20132603.png" alt="屏幕截图 2026-10-07 132603.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20132613.png" alt="屏幕截图 2026-10-07 132613.png"></p>
+<p>В интерактивном режиме были выбраны параметры:</p>
+<ul>
+<li>type: <code>feat</code></li>
+<li>short description: <code>add new feature.txt</code></li>
+</ul>
+<p>Коммит создан:</p>
+<pre><code class="fenced-code-block">[develop 7da1cc4] feat: add new feature.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 feature.txt</code></pre>
+<p>Завершение функциональной ветки:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow feature finish feature_branch</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20133432.png" alt="屏幕截图 2026-10-07 133432.png"></p>
+<hr>
+<h3 id="reliz-123" class="atx">Релиз 1.2.3</h3>
+<p>Создание релизной ветки:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow release start <span class="token number">1.2</span>.3</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20132735.png" alt="屏幕截图 2026-10-07 132735.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20132915.png" alt="屏幕截图 2026-10-07 132915.png"></p>
+<p>Обновление номера версии в <code>package.json</code>:</p>
+<pre><code class="fenced-code-block language-json"><span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.2.3"</span><span class="token punctuation">,</span></code></pre>
+<p>Генерация обновлённого журнала изменений:</p>
+<pre><code class="fenced-code-block language-bash">conventional-changelog <span class="token parameter variable">-p</span> angular <span class="token parameter variable">-r</span> <span class="token number">0</span> <span class="token operator">&gt;</span> CHANGELOG.md
+<span class="token function">cat</span> CHANGELOG.md</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20133135.png" alt="屏幕截图 2026-10-07 133135.png"></p>
+<p>Содержимое <code>CHANGELOG.md</code>:</p>
+<pre><code class="fenced-code-block"># 1.2.3 (2026-10-07)
+
+### Features
+
+* add new feature.txt ([7da1cc4](...))
+* initial commit ([928c072](...))</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20133824.png" alt="屏幕截图 2026-10-07 133824.png"></p>
+<p>Добавление и коммит:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> <span class="token function">add</span> CHANGELOG.md package.json
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"chore(site): update changelog and version"</span></code></pre>
+<p>Завершение релиза:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> flow release finish <span class="token number">1.2</span>.3</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20133432.png" alt="屏幕截图 2026-10-07 133432.png">При этом возник конфликт слияния в файле <code>CHANGELOG.md</code>, который был разрешён вручную: конфликтующие маркеры (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) удалены, оставлены обе строки Features.</p>
+<p>После разрешения конфликта:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> <span class="token function">add</span> CHANGELOG.md
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Merge branch 'release/1.2.3'"</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20134046.png" alt="屏幕截图 2026-10-07 134046.png"></p>
+<p>Создание тега версии:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> tag <span class="token parameter variable">-a</span> v1.2.3 <span class="token parameter variable">-m</span> <span class="token string">"Release 1.2.3"</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20134236.png" alt="屏幕截图 2026-10-07 134236.png"></p>
+<p>Публикация изменений и тегов:</p>
+<pre><code class="fenced-code-block language-bash"><span class="token function">git</span> push <span class="token parameter variable">--all</span>
+<span class="token function">git</span> push <span class="token parameter variable">--tags</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20134248.png" alt="屏幕截图 2026-10-07 134248.png"></p>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20134258.png" alt="屏幕截图 2026-10-07 134258.png"></p>
+<p>Создание релиза на GitHub:</p>
+<pre><code class="fenced-code-block language-bash">gh release create v1.2.3 <span class="token parameter variable">-F</span> CHANGELOG.md <span class="token parameter variable">-t</span> <span class="token string">"Release 1.2.3"</span></code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20134414.png" alt="屏幕截图 2026-10-07 134414.png"></p>
+<p>Проверка списка релизов:</p>
+<pre><code class="fenced-code-block language-bash">gh release list</code></pre>
+<p><img src="file://C:/Users/dell/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-10-07%20134627.png" alt="屏幕截图 2026-10-07 134627.png"></p>
+<p>Результат:</p>
+<pre><code class="fenced-code-block">TITLE           TYPE      TAG NAME   PUBLISHED
+Release 1.2.3   Latest    v1.2.3     ...
+Release 1.0.0             v1.0.0     ...</code></pre>
+<hr>
+<h2 id="vyvody" class="atx">Выводы</h2>
+<p>В ходе лабораторной работы были получены практические навыки правильной работы с репозиториями git:</p>
+<ul>
+<li>освоена методология <strong>Gitflow</strong>: работа с ветками <code>main</code>, <code>develop</code>, <code>feature/*</code>, <code>release/*</code>;</li>
+<li>изучена спецификация <strong>Conventional Commits</strong>, применённая при создании коммитов через <code>git cz</code>;</li>
+<li>освоено <strong>семантическое версионирование</strong>: созданы релизы <code>1.0.0</code> и <code>1.2.3</code>;</li>
+<li>применена автоматическая генерация журнала изменений с помощью <code>conventional-changelog</code>;</li>
+<li>освоена работа с утилитой командной строки <code>gh</code> для создания репозитория и релизов на GitHub;</li>
+<li>получены навыки разрешения конфликтов слияния в Git.</li>
+</ul>
+<p>Все релизы успешно опубликованы в репозитории <a href="https://github.com/Muzxnya/git-extended">git-extended</a>.</p>
+<hr>
+<h2 id="otvety-na-kontrolnye-voprosy" class="atx">Ответы на контрольные вопросы</h2>
+<h3 id="1-chto-takoe-gitflow" class="atx">1. Что такое Gitflow?</h3>
+<p>Gitflow — модель ветвления Git, предложенная Винсентом Дриссеном. Она предполагает использование двух долгоживущих веток (<code>main</code> и <code>develop</code>) и временных веток (<code>feature</code>, <code>release</code>, <code>hotfix</code>). Такая модель хорошо подходит для организации рабочего процесса на основе релизов.</p>
+<h3 id="2-kakie-osnovnye-vetki-ispolzuyutsya-v-gitflow" class="atx">2. Какие основные ветки используются в Gitflow?</h3>
+<ul>
+<li><code>main</code> — официальная история релизов;</li>
+<li><code>develop</code> — ветка для интеграции всех новых функций;</li>
+<li><code>feature/*</code> — для разработки отдельных функций;</li>
+<li><code>release/*</code> — для подготовки релизов;</li>
+<li><code>hotfix/*</code> — для срочных исправлений.</li>
+</ul>
+<h3 id="3-chto-takoe-semanticheskoe-versionirovanie" class="atx">3. Что такое семантическое версионирование?</h3>
+<p>Семантическое версионирование (SemVer) — система нумерации версий вида <code>МАЖОРНАЯ.МИНОРНАЯ.ПАТЧ</code>:</p>
+<ul>
+<li>МАЖОРНАЯ увеличивается при несовместимых изменениях API;</li>
+<li>МИНОРНАЯ — при добавлении новой функциональности без нарушения совместимости;</li>
+<li>ПАТЧ — при обратно совместимых исправлениях.</li>
+</ul>
+<h3 id="4-chto-takoe-conventional-commits" class="atx">4. Что такое Conventional Commits?</h3>
+<p>Conventional Commits — спецификация, регламентирующая структуру сообщений коммитов. Формат:</p>
+<pre><code class="fenced-code-block">&lt;тип&gt;(&lt;область&gt;): &lt;описание&gt;</code></pre>
+<p>Основные типы: <code>feat</code>, <code>fix</code>, <code>docs</code>, <code>chore</code>, <code>refactor</code>, <code>style</code>, <code>test</code>, <code>perf</code>, <code>build</code>, <code>ci</code>.</p>
+<h3 id="5-kakaya-svyaz-mezhdu-conventional-commits-i-semver" class="atx">5. Какая связь между Conventional Commits и SemVer?</h3>
+<p>Коммиты <code>fix</code> соответствуют PATCH-версии, <code>feat</code> — MINOR-версии. Коммиты с <code>BREAKING CHANGE</code> соответствуют MAJOR-версии. Это позволяет автоматически генерировать номера версий и журнал изменений.</p>
+<h3 id="6-chto-delaet-komanda-git-flow-init" class="atx">6. Что делает команда <code>git flow init</code>?</h3>
+<p>Инициализирует структуру Gitflow в существующем репозитории: создаёт ветку <code>develop</code>, настраивает префиксы для временных веток и префикс тегов версий.</p>
+<h3 id="7-chto-delaet-komanda-git-flow-release-start-100" class="atx">7. Что делает команда <code>git flow release start 1.0.0</code>?</h3>
+<p>Создаёт новую релизную ветку <code>release/1.0.0</code> на основе <code>develop</code>. В этой ветке ведётся подготовка релиза: обновление версии, генерация журнала изменений, последние исправления.</p>
+<h3 id="8-chto-delaet-komanda-git-flow-release-finish-100" class="atx">8. Что делает команда <code>git flow release finish 1.0.0</code>?</h3>
+<p>Завершает релиз: сливает <code>release/1.0.0</code> в <code>main</code> и <code>develop</code>, создаёт тег <code>v1.0.0</code>, удаляет релизную ветку.</p>
+<h3 id="9-chto-takoe-changelog" class="atx">9. Что такое CHANGELOG?</h3>
+<p>CHANGELOG — файл, содержащий список значимых изменений проекта по версиям. Обычно генерируется автоматически на основе сообщений коммитов (например, с помощью <code>conventional-changelog</code>).</p>
+<h3 id="10-kak-sozdat-reliz-na-github" class="atx">10. Как создать релиз на GitHub?</h3>
+<pre><code class="fenced-code-block language-bash">gh release create v1.0.0 <span class="token parameter variable">-F</span> CHANGELOG.md <span class="token parameter variable">-t</span> <span class="token string">"Release 1.0.0"</span></code></pre>
+<hr>
+<h2 id="bibliografiya" class="atx">Библиография</h2>
+<ol>
+<li>Chacon, S. Pro Git / S. Chacon, B. Straub. — Apress, 2014. — 456 сс.</li>
+<li>Driessen, V. A successful Git branching model [Электронный ресурс]. — URL: <a href="https://nvie.com/posts/a-successful-git-branching-model/">https://nvie.com/posts/a-successful-git-branching-model/</a></li>
+<li>Conventional Commits [Электронный ресурс]. — URL: <a href="https://www.conventionalcommits.org/">https://www.conventionalcommits.org/</a></li>
+<li>Semantic Versioning [Электронный ресурс]. — URL: <a href="https://semver.org/">https://semver.org/</a></li>
+<li>Node.js Documentation [Электронный ресурс]. — URL: <a href="https://nodejs.org/docs/">https://nodejs.org/docs/</a></li>
+<li>GitHub CLI Documentation [Электронный ресурс]. — URL: <a href="https://cli.github.com/manual/">https://cli.github.com/manual/</a></li>
+</ol>
+</article>
+</body>
+</html>
