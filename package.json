@@ -1,0 +1,14 @@
+{
+  "name": "os-intro",
+  "version": "1.0.0",
+  "description": "Операционные системы",
+  "main": "index.js",
+  "repository": "git@github.com:Muzxnya/study_202602-202606_os-intro.git",
+  "author": "ZhaoXinya <1132258332@rudn.ru>",
+  "license": "CC-BY-4.0",
+    "config": {
+	"commitizen": {
+	    "path": "cz-customizable"
+	}
+    }
+}
