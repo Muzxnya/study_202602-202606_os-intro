@@ -51,8 +51,7 @@ study_202602-202606_os-intro/
 | 13 | Ветвления и циклы | [report](https://github.com/Muzxnya/study_202602-202606_os-intro/releases/download/v1.0-lab13/report.pdf) | [presentation](https://github.com/Muzxnya/study_202602-202606_os-intro/releases/download/v1.0-lab13/presentation.pdf) |
 | 14 | Семафоры. man. RANDOM | [report](https://github.com/Muzxnya/study_202602-202606_os-intro/releases/download/v1.0-lab14/report.pdf) | [presentation](https://github.com/Muzxnya/study_202602-202606_os-intro/releases/download/v1.0-lab14/presentation.pdf) |
 
-**Важно:** ссылки в таблице выше работают **только после того, как релиз с таким тегом опубликован**.
-Если какой-то тег ещё не опубликован — ссылка на него вернёт 404. Проверить список опубликованных релизов можно на странице:
+**releases:** 
 <https://github.com/Muzxnya/study_202602-202606_os-intro/releases>
 
 ## Зеркала
@@ -60,6 +59,3 @@ study_202602-202606_os-intro/
 - **GitHub:** <https://github.com/Muzxnya/study_202602-202606_os-intro>
 - **GitVerse:** <https://gitverse.ru/Muzxnya/study_202602-202606_os-intro>
 
-## Лицензия
-
-CC BY 4.0
